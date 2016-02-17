@@ -1,9 +1,5 @@
 import tweepy
-
-consumer_key = 'Your-key-here'
-consumer_secret = 'Your-key-here'
-access_token = 'Your-key-here'
-access_token_secret = 'Your-key-here'
+from tweeter_key import *
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
