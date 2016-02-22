@@ -29,3 +29,11 @@ $ python crawler/news_crawler.py
 ```
 
 Two json files, `espn_data.json` and `The NBACentral_data.json`, will be created at the root directory of this project. 
+
+## Indexing
+
+We start Solr 5 server by using the following command:
+
+```Shell
+$ solr start -s root_of_project/index/solr
+```
