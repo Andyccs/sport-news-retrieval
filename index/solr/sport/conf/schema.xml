@@ -109,7 +109,20 @@
      in a compatible way. Any analysis applied to the <uniqueKey> should _not_ produce multiple
      tokens
    -->   
-   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
+   <field name="id" type="string" indexed="true" stored="true" required="true"/> 
+
+  <!-- Custom Fields -->
+  <!-- Define all fields in our tweets data -->
+  <field name="author" type="string" indexed="true" stored="true"/>
+  <field name="created_at" type="tdate" indexed="true" stored="true"/>
+  <field name="lang" type="string" indexed="true" stored="true"/>
+  <field name="favorite_count" type="int" indexed="true" stored="true"/>
+  <field name="text" type="text_general" indexed="true" stored="true"/>
+
+  <!-- Catch all field -->
+  <field name="catch_all" type="text_en" indexed="true" stored="false" multiValued="true"/>
+  <copyField source="author" dest="catch_all"/>
+  <copyField source="text" dest="catch_all"/>
 
    <!-- Dynamic field definitions allow using convention over configuration
        for fields via the specification of patterns to match field names. 

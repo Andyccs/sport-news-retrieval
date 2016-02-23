@@ -1,15 +1,16 @@
 import datetime
 import json
+import pytz
 import tweepy
 from tweeter_key import *
 
 
 class Model:
 
-  def __init__(self, unique_id, text, author, datetime, lang, favorite_count):
+  def __init__(self, unique_id, text, author, created_at, lang, favorite_count):
     self.text = text
     self.author = author
-    self.datetime = datetime
+    self.created_at = created_at
     self.lang = lang
     self.favorite_count = favorite_count
     self.unique_id = unique_id
@@ -22,7 +23,7 @@ class ModelEncoder(json.JSONEncoder):
       return {"id": obj.unique_id,
               "text": obj.text,
               "author": obj.author,
-              "datetime": obj.datetime,
+              "created_at": obj.created_at,
               "lang": obj.lang,
               "favorite_count": obj.favorite_count}
     # Let the base class default method raise the TypeError
@@ -54,11 +55,11 @@ def crawl(name, total_page):
       unique_id = tweet.id
       text = tweet.text
       author = tweet.author.name
-      created_at = tweet.created_at
+      created_at = tweet.created_at.isoformat() + 'Z'
       lang = tweet.lang
       favorite_count = tweet.favorite_count
 
-      data = Model(unique_id, text, author, unix_time_millis(created_at), lang, favorite_count)
+      data = Model(unique_id, text, author, created_at, lang, favorite_count)
       result.append(data)
 
     print 'crawled', len(tweets), 'tweets'

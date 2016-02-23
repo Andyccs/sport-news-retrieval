@@ -32,8 +32,10 @@ Two json files, `espn_data.json` and `The NBACentral_data.json`, will be created
 
 ## Indexing
 
-We start Solr 5 server by using the following command:
+We start Solr 5 server and index our data by using the following commands:
 
 ```Shell
 $ solr start -s root_of_project/index/solr
+$ post -c sport espn_data.json
+$ post -c sport TheNBACentral_data.json
 ```
