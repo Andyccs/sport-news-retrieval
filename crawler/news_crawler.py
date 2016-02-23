@@ -6,17 +6,23 @@ from tweeter_key import *
 
 class Model:
 
-  def __init__(self, text, author, datetime):
+  def __init__(self, text, author, datetime, lang, favorite_count):
     self.text = text
     self.author = author
     self.datetime = datetime
+    self.lang = lang
+    self.favorite_count = favorite_count
 
 
 class ModelEncoder(json.JSONEncoder):
 
   def default(self, obj):
     if isinstance(obj, Model):
-      return {"text": obj.text, "author": obj.author, "datetime": obj.datetime}
+      return {"text": obj.text,
+              "author": obj.author,
+              "datetime": obj.datetime,
+              "lang": obj.lang,
+              "favorite_count": obj.favorite_count}
     # Let the base class default method raise the TypeError
     return json.JSONEncoder.default(self, obj)
 
@@ -46,8 +52,10 @@ def crawl(name, total_page):
       text = tweet.text
       author = tweet.author.name
       created_at = tweet.created_at
+      lang = tweet.lang
+      favorite_count = tweet.favorite_count
 
-      data = Model(text, author, unix_time_millis(created_at))
+      data = Model(text, author, unix_time_millis(created_at), lang, favorite_count)
       result.append(data)
 
     print 'crawled', len(tweets), 'tweets'
