@@ -6,19 +6,21 @@ from tweeter_key import *
 
 class Model:
 
-  def __init__(self, text, author, datetime, lang, favorite_count):
+  def __init__(self, unique_id, text, author, datetime, lang, favorite_count):
     self.text = text
     self.author = author
     self.datetime = datetime
     self.lang = lang
     self.favorite_count = favorite_count
+    self.unique_id = unique_id
 
 
 class ModelEncoder(json.JSONEncoder):
 
   def default(self, obj):
     if isinstance(obj, Model):
-      return {"text": obj.text,
+      return {"id": obj.unique_id,
+              "text": obj.text,
               "author": obj.author,
               "datetime": obj.datetime,
               "lang": obj.lang,
@@ -49,13 +51,14 @@ def crawl(name, total_page):
     tweets = api.user_timeline(name, count=200, page=i)
 
     for tweet in tweets:
+      unique_id = tweet.id
       text = tweet.text
       author = tweet.author.name
       created_at = tweet.created_at
       lang = tweet.lang
       favorite_count = tweet.favorite_count
 
-      data = Model(text, author, unix_time_millis(created_at), lang, favorite_count)
+      data = Model(unique_id, text, author, unix_time_millis(created_at), lang, favorite_count)
       result.append(data)
 
     print 'crawled', len(tweets), 'tweets'
