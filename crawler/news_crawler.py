@@ -30,13 +30,6 @@ class ModelEncoder(json.JSONEncoder):
     return json.JSONEncoder.default(self, obj)
 
 
-epoch = datetime.datetime.utcfromtimestamp(0)
-
-
-def unix_time_millis(dt):
-  return (dt - epoch).total_seconds() * 1000.0
-
-
 def crawl(name, total_page):
   print 'crawling', name, 'tweeter timeline'
 
