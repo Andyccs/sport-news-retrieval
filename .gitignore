@@ -61,4 +61,7 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+# Directory-based project format:
+.idea/
+
 crawler/tweeter_key.py
