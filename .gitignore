@@ -65,3 +65,5 @@ target/
 .idea/
 
 crawler/tweeter_key.py
+*data.json
+index/solr/sport/data
