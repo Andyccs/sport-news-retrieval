@@ -28,7 +28,7 @@ We run the crawler by using the following command:
 $ python crawler/news_crawler.py
 ```
 
-Two json files, `espn_data.json` and `The NBACentral_data.json`, will be created at the root directory of this project. 
+Two json files, `espn_data.json` and `The NBACentral_data.json`, will be created at the root directory of this project.
 
 ## Indexing
 
@@ -39,3 +39,17 @@ $ solr start -s root_of_project/index/solr
 $ post -c sport espn_data.json
 $ post -c sport TheNBACentral_data.json
 ```
+## Classifier
+
+The classifier will call the API from [text-processing.com](text-processing.com/api) 
+
+
+We run the classifier by using the following command:
+
+```Shell
+$ python crawler/classify.py
+```
+
+1 json files, `espn_data_result.json`  will be created at the root directory of this project. The json file has 4 fields: probability values of negative('neg'), neutral('neutral') and positive('pos')and finally the sentiment label('label') of the text.
+
+After running the classifier, you may add the label to the data file by running formatter.py. 1 json file, `espn_data_result_appended.json` will be created. 
