@@ -13,7 +13,8 @@ for tweet_data in data_json:
     text = tweet_data['text'].encode('ascii', 'ignore')
     data = urllib.urlencode({"text": text})
     result = urllib.urlopen("http://text-processing.com/api/sentiment/", data)
-    result_list.append(result.read())
+    json_data = json.loads(result.read())
+    result_list.append(json_data)
 
 # save result
 with codecs.open('crawler/' + FILE_NAME + '_result.json', 'a+') as result_file:
