@@ -21,6 +21,7 @@ def add_col(data_file, result_list, column_name):
       data_file_row[column_name] = result
   return data_file
 
+# get all results into a list
 result_list = []
 with open(FOLDER_NAME + RESULT_FILE + FILE_TYPE, 'r') as result_file:
   result_json = json.load(result_file)
