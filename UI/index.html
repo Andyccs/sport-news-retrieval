@@ -17,11 +17,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
+        <script src="js/angular.min.js"></script>
+
 <!--Google Fonts-->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--Google Fonts-->
 </head>
-<body class="container"> 
+<body class="container" ng-app="myApp" ng-controller="newsCtrl" > 
 <!--search start here-->
 	<ul class="nav nav-tabs">
 	  <li role="presentation" class="active"><a href="#">Search</a></li>
@@ -39,8 +41,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<i> </i>
 	<div class="s-bar">
 	   <form>
-		<input type="text" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}">
-		<input type="submit"  value="Search"/>
+		<input type="text" ng-model="keywords" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}">
+		<input type="submit" id="search" value="Search"/>
 		
 		
 	  </form>
@@ -51,34 +53,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<p>Popular searches: <u>Warriors</u> <u>Curry for Three</u></p>
 </div>
 
+<div class="news-container" >
+        <div class="news" ng-repeat="x in news">
+		<div class="row">
+			<div class="col-md-4 bold">Source: {{x.Source}}</div>
+			<div class="col-md-4 it">{{x.Time}}</div>
+			
+			<div class="col-md-4">Tag: {{x.Tag}}</div>
+			
+	
+		</div>
+		
+		<p>{{x.Content}}</p>
 
-<div class="news-container">
-	
-	<div class="news">
-		<div class="row">
-			<div class="col-md-4 bold">Source: ESPN</div>
-			<div class="col-md-4 it">29/02/2016 12:00pm</div>
-			
-			<div class="col-md-4">Classification Tag: Positive</div>
-			
-	
-		</div>
-		
-		<p>Contents here Contents here Contents here Contents here Contents here Contents here Contents here</p>
-	</div>
-	
-	<div class="news">
-		<div class="row">
-			<div class="col-md-4 bold">Source: ESPN</div>
-			<div class="col-md-4 it">29/02/2016 12:00pm</div>
-			
-			<div class="col-md-4">Classification Tag: Positive</div>
-			
-	
-		</div>
-		
-		<p>Contents here Contents here Contents here Contents here Contents here Contents here Contents here</p>
-	</div>
+        </div>
 	
 </div>
 
@@ -94,6 +82,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
+
     
 </body>
 </html></em>
