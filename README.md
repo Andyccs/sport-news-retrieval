@@ -48,3 +48,15 @@ $ python classifier/classify.py
 ```
 
 Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the root directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
+
+## UI Client
+Current UI version has two functions
+* A button to trigger the crawling in the backend
+![Alt text](/UI/crawl_demo.gif)
+Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend. 
+
+
+* A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
+![Alt text](/UI/query_demo.gif)
+Note: In the current implementation, a HTTP GET request is made to UI/fake_news.json and display the records in that file. In the future, we need to query the backend solr and we shall also edit the http template based on its schema. 
+
