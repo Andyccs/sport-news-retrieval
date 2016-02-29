@@ -1,4 +1,4 @@
-<em><!--Author: W3layouts
+<!--Author: W3layouts
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
@@ -6,83 +6,68 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>CZ4034 Assignment</title>
+  <title>CZ4034 Assignment</title>
 
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
+  <!-- Custom Theme files -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
-<!-- Custom Theme files -->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+  <script src="js/angular.min.js"></script>
 
-        <script src="js/angular.min.js"></script>
-
-<!--Google Fonts-->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-<!--Google Fonts-->
+  <!--Google Font-->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
+
 <body class="container" ng-app="myApp" ng-controller="newsCtrl" > 
-<!--search start here-->
-	<ul class="nav nav-tabs">
-	  <li role="presentation" class="active"><a href="#">Search</a></li>
-	 <button type="button" id="crawl" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-	   Crawl
-	 </button>
-	</ul>
-	
-<div class="header">
-  <h1>NBA News Retrieval</h1>
-</div>
-	
-	
-<div class="row search">
-	<i> </i>
-	<div class="s-bar">
-	   <form>
-		<input type="text" ng-model="keywords" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}">
-		<input type="submit" id="search" value="Search"/>
-		
-		
-	  </form>
-	  
-	</div>
+  
+  <!--search start here-->
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#">Search</a></li>
+   <button type="button" id="crawl" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+     Crawl
+   </button>
+  </ul>
+  
+  <div class="header">
+    <h1>NBA News Retrieval</h1>
+  </div>
+  
+  <div class="row search">
+    <i> </i>
+    <div class="s-bar">
+      <form>
+        <input type="text" ng-model="keywords" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}">
+        <input type="submit" id="search" value="Search"/>
+      </form>
+    </div>
+    <p>Popular searches: <u>Warriors</u> <u>Curry for Three</u></p>
+  </div>
 
+  <div class="news-container" >
+    <div class="news" ng-repeat="x in news">
+      <div class="row">
+        <div class="col-md-4 bold">Source: {{x.Source}}</div>
+        <div class="col-md-4 it">{{x.Time}}</div>
+        <div class="col-md-4">Tag: {{x.Tag}}</div>
+      </div>
+    <p>{{x.Content}}</p>
+    </div>
+  </div>
+  <!--search end here-->  
 
-	<p>Popular searches: <u>Warriors</u> <u>Curry for Three</u></p>
-</div>
+  <div class="copyright">
+    <p>CZ4034 Information Retrieval Team</p>
+  </div>  
 
-<div class="news-container" >
-        <div class="news" ng-repeat="x in news">
-		<div class="row">
-			<div class="col-md-4 bold">Source: {{x.Source}}</div>
-			<div class="col-md-4 it">{{x.Time}}</div>
-			
-			<div class="col-md-4">Tag: {{x.Tag}}</div>
-			
-	
-		</div>
-		
-		<p>{{x.Content}}</p>
-
-        </div>
-	
-</div>
-
-<!--search end here-->	
-<div class="copyright">
-	 <p>CZ4034 Information Retrieval Team</p>
-</div>	
-
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/custom.js"></script>
-
-    
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="js/jquery.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/custom.js"></script>
 </body>
-</html></em>
+</html>
