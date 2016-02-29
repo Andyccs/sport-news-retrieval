@@ -47,9 +47,15 @@ The classifier will call the API from [text-processing.com](text-processing.com/
 We run the classifier by using the following command:
 
 ```Shell
-$ python crawler/classify.py
+$ python classifier/classify.py
 ```
 
-1 json files, `espn_data_result.json`  will be created at the root directory of this project. The json file has 4 fields: probability values of negative('neg'), neutral('neutral') and positive('pos')and finally the sentiment label('label') of the text.
+A json files, `espn_data_result.json`  will be created at the root directory of this project. The json file has 4 fields: probability values of negative ('neg'), neutral ('neutral') and positive ('pos') and finally the sentiment label ('label') of the text.
 
-After running the classifier, you may add the label to the data file by running formatter.py. 1 json file, `espn_data_result_appended.json` will be created. 
+After running the classifier, you may add the label to the data file by running formatter.py. 
+
+```Shell
+$ python crawler/formatter.py
+```
+
+A json file, `espn_data_result_appended.json` will be created. 
