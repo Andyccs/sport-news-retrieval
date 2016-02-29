@@ -1,21 +1,30 @@
 import urllib
 import json
-import codecs
 
-FILE_NAME = 'espn_data'
+LABEL_KEY = 'label'
 
-with open('crawler/' + FILE_NAME + '.json') as json_file:
-  data_json = json.load(json_file)
 
-# do sentiment analysis
-result_list = []
-for tweet_data in data_json:
-  text = tweet_data['text'].encode('ascii', 'ignore')
-  data = urllib.urlencode({"text": text})
-  result = urllib.urlopen("http://text-processing.com/api/sentiment/", data)
-  json_data = json.loads(result.read())
-  result_list.append(json_data)
+def classify(filename):
+  print 'Doing sentiment analysis for', filename
 
-# save result
-with codecs.open('crawler/' + FILE_NAME + '_result.json', 'a+') as result_file:
-  json.dump(result_list, result_file)
+  with open(filename + '_data.json') as json_file:
+    tweets = json.load(json_file)
+
+  # do sentiment analysis
+  for index, tweet in enumerate(tweets):
+    if index % 10 == 0:
+      print 'processing: %.2f%%' % (float(index) / len(tweets) * 100.0)
+
+    text = tweet['text'].encode('ascii', 'ignore')
+    data = urllib.urlencode({'text': text})
+    result = urllib.urlopen('http://text-processing.com/api/sentiment/', data)
+    json_data = json.loads(result.read())
+    tweet[LABEL_KEY] = json_data[LABEL_KEY]
+
+  with open(filename + '_data_sentiments.json', 'w') as tweets_sentiments_file:
+    json.dump(tweets, tweets_sentiments_file)
+
+
+if __name__ == '__main__':
+  classify('espn')
+  classify('TheNBACentral')
