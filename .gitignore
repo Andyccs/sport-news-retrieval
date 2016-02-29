@@ -73,3 +73,6 @@ crawler/tweeter_key.py
 
 # Ignore Solr data
 index/solr/sport/data
+
+# Ignore Bower Components
+bower_components/
