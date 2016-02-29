@@ -58,5 +58,5 @@ Note: In the current implementation, an alert view will show up once the button 
 
 * A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
 ![Alt text](/UI/query_demo.gif)
-Note: In the current implementation, a HTTP GET request is made to UI/fake_news.json and display the records in that file. In the future, we need to query the backend solr and we shall also edit the http template based on its schema. 
+Note: In the current implementation, a HTTP GET request is made to UI/fake_news.json and display the records in that file. In the future, we need to query the backend solr and we shall also edit the html template based on its schema. 
 
