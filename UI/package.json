@@ -1,0 +1,15 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "A simple user interface that use Solr server to retrieve sport news.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andyccs",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "eslint": "^2.2.0",
+    "eslint-config-defaults": "^9.0.0"
+  }
+}

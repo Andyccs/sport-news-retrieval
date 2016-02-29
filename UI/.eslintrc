@@ -1,0 +1,14 @@
+{
+  "env": {
+    "browser": true,
+    "jquery": true
+  },
+  "extends": "defaults/configurations/google",
+  "rules": {
+    "strict": 0,
+    "max-len": [1, 100]
+  },
+  "globals": {
+    "angular": 1
+  }
+}
