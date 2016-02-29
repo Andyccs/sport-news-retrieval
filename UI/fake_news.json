@@ -4,31 +4,37 @@
 {
 "Source" : "NBA-Stats",
 "Time" : "2/21/2016 10:18:16 PM",
+"Tag":"Positive",
 "Content" : "Varejao reached an agreement with the Warriors on Sunday, according to Shams Charania of Yahoo! Sports."
 },
 {
 "Source" : "NBA-Stats",
 "Time" : "2/22/2016 12:53:08 PM",
+"Tag":"Negative",
 "Content" : "Bogut (Achilles) is listed as questionable for Monday's game against the Hawks, Chris Vivlamore of the Atlanta Journal-Constitution reports."
 },
 {
 "Source" : "NBA-Stats",
 "Time" : "2/22/2016 7:33:20",
+"Tag":"Neutral",
 "Content" : "Bogut (Achilles) is listed as questionable for Monday's game against the Hawks, Chris Vivlamore of the Atlanta Journal-Constitution reports."
 },
 {
 "Source" : "NBA-Stats",
 "Time" : "2/22/2016 11:43:24 PM",
+"Tag":"Negative",
 "Content" : "Curry scored 36 points (14-22 FG, 3-3 FT, 5-11 3Pt) to go along with six rebounds, eight assists and three steals in 36 minutes during Monday's win over the Hawks."
 },
 {
 "Source" : "NBA-Stats",
 "Time" : "2/23/2016 12:33:30 AM",
+"Tag":"Neutral",
 "Content" : "Draymond Green;Green scored just six points (2-10 FG, 2-2 FT, 0-4 3Pt) to go along with 14 rebounds, nine assists, two steals and a block in 38 minutes Sunday against the Hawks."
 },
 {
 "Source" : "NBA-Stats",
 "Time" : "2/23/2016 12:33:31 AM",
+"Tag":"Positive",
 "Content" : "Thompson scored 27 points (10-23 FG, 3-3 FT, 5-14 3Pt) to go along with three assists, three steals and two rebounds in 37 minutes of Monday's win over the Hawks."
 }
 ]
