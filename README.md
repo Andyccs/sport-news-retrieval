@@ -88,6 +88,7 @@ Prerequisite:
 - Python 2 or 3 and Python Package Manager (pip) is installed
 - [Bower](http://bower.io) is installed
 - Windows users must make sure that these programs are added to the PATH environment variables and can be run using command line
+- You have create a file `crawler/tweeter_key.py` by following the guide in `Crawler` section of this README
 
 First, we need to make sure that your Docker client is connected to your Docker daemon. 
 
