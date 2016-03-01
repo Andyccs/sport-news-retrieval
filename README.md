@@ -103,9 +103,11 @@ $ docker-machine start default
 $ docker-machine env default
 
 # For Linux
-# Make sure you can run docker without sudo by [creating a docker group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#create-a-docker-group)
+# Make sure you can run docker without sudo by creating a docker group
 $ sudo service docker start
 ```
+
+*[Creating a docker group in Linux](https://docs.docker.com/engine/installation/linux/ubuntulinux/#create-a-docker-group)*
 
 Alternatively, Mac OSX and Windows users can connect to Docker daemon using `Docker Quickstart Terminal` program. 
 
