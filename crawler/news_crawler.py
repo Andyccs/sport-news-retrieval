@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 import pytz
 import tweepy
 from tweeter_key import *
@@ -59,7 +60,10 @@ def crawl(name, total_page):
 
   result_json = json.dumps(result, cls=ModelEncoder)
 
-  f = open(name + '_data.json', 'w')
+  if not os.path.exists('data/'):
+    os.makedirs('data/')
+
+  f = open('data/' + name + '_data.json', 'w')
   f.write(result_json)
   f.close()
 

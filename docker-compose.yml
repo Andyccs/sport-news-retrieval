@@ -1,0 +1,7 @@
+solr:
+  build: .
+  dockerfile: index/Dockerfile
+  ports:
+  - "8983:8983"
+  volumes:
+  - ./data/:/opt/solr/data:rw
