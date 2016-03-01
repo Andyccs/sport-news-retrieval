@@ -18,6 +18,12 @@ function sentiment_analysis() {
 }
 
 function sportd() {
+  if [ "$1" == "stop" ]
+  then
+    docker-compose stop
+    return
+  fi
+
   if [ "$1" != "start" ]
   then
     echo "Usage: sportd start [OPTION]"

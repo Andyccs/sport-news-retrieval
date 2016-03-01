@@ -81,10 +81,11 @@ Yeah you are right. You need to install all Python requirements, install all bow
 
 Prerequisite:
 
-- Mac OSX or Unix (Windows user can use Git Bash or [Cygwin](https://www.cygwin.com), but there is not guarantee that things will work as expected)
+- Mac OSX or Unix (Windows user can use Git Bash or [Cygwin](https://www.cygwin.com))
 - [Docker Toolbox](https://www.docker.com/products/docker-toolbox) is installed
 - Python 2 or 3 and Python Package Manager (pip) is installed
 - [Bower](http://bower.io) is installed
+- Windows users must make sure that these programs are added to the PATH environment variables and can be run using command line
 
 First, we need to make sure that your Docker client is connected to your Docker daemon. 
 
@@ -113,6 +114,8 @@ $ sportd start -c
 
 # If you do not want to crawl and classify, and only want to start solr server and website
 $ sportd start
+
+# You should only use sportd command in the root directory of this project
 ```
 
 After running the commands, the application will be deployed to a virtual machine. We need to know the ip address of our virtual machine using the following commands:
@@ -122,10 +125,10 @@ $ docker-machine ip default
 # Typically 192.168.99.100
 ```
 
-Now, you can visit the website at `http://theipaddress:80` and the Solr Admin Panel at `http://theipaddress:8983`. 
+Now, you can visit the website at `http://theipaddress` and the Solr Admin Panel at `http://theipaddress:8983`.
 
 To stop the magic from happening:
 
 ```Shell
-$ docker-compose stop
+$ sportd stop
 ```
