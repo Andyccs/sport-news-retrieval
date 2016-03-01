@@ -114,3 +114,18 @@ $ sportd start -c
 # If you do not want to crawl and classify, and only want to start solr server and website
 $ sportd start
 ```
+
+After running the commands, the application will be deployed to a virtual machine. We need to know the ip address of our virtual machine using the following commands:
+
+```Shell
+$ docker-machine ip default
+# Typically 192.168.99.100
+```
+
+Now, you can visit the website at `http://theipaddress:80` and the Solr Admin Panel at `http://theipaddress:8983`. 
+
+To stop the magic from happening:
+
+```Shell
+$ docker-compose stop
+```
