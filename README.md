@@ -81,8 +81,10 @@ Yeah you are right. You need to install all Python requirements, install all bow
 
 Prerequisite:
 
-- Mac OSX or Unix (Windows user can use Git Bash or [Cygwin](https://www.cygwin.com))
+- Mac OSX or Unix
+  - Windows user can use Git Bash or [Cygwin](https://www.cygwin.com))
 - [Docker Toolbox](https://www.docker.com/products/docker-toolbox) is installed
+  - For Linux users, you should install [Docker Engine](https://docs.docker.com/linux/) and [Docker Compose](https://docs.docker.com/compose/install/) separately
 - Python 2 or 3 and Python Package Manager (pip) is installed
 - [Bower](http://bower.io) is installed
 - Windows users must make sure that these programs are added to the PATH environment variables and can be run using command line
@@ -90,13 +92,19 @@ Prerequisite:
 First, we need to make sure that your Docker client is connected to your Docker daemon. 
 
 ```Shell
+# Only Mac OSX can run the following command.
+$ docker-machine start
+$ docker-machine env default
+$ eval $(docker-machine env default) 
+
+# For Windows users, please copy paste the output of previous command to your
+# command line. 
 $ docker-machine start
 $ docker-machine env default
 
-# Only Mac OSX and Linux can run the following command.
-# For Windows users, please copy paste the output of previous command to your
-# command line. 
-$ eval $(docker-machine env default) 
+# For Linux
+# Make sure you can run docker without sudo by [creating a docker group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#create-a-docker-group)
+$ sudo service docker start
 ```
 
 Alternatively, Mac OSX and Windows users can connect to Docker daemon using `Docker Quickstart Terminal` program. 
@@ -121,8 +129,11 @@ $ sportd start
 After running the commands, the application will be deployed to a virtual machine. We need to know the ip address of our virtual machine using the following commands:
 
 ```Shell
+# For MAC OSX and Windosw
 $ docker-machine ip default
-# Typically 192.168.99.100
+
+# For Linux
+$ ifconfig docker0 | grep 'inet addr:' | cut -d: -f2 |  cut -d ' ' -f 1
 ```
 
 Now, you can visit the website at `http://theipaddress` and the Solr Admin Panel at `http://theipaddress:8983`.

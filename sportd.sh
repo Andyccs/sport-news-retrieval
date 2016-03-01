@@ -18,13 +18,14 @@ function sentiment_analysis() {
 }
 
 function sportd() {
-  if [ "$1" == "stop" ]
+  if [ "$1" "==" "stop" ]
   then
+    printf "${GREEN}Stopping all...${NC}\n"
     docker-compose stop
     return
   fi
 
-  if [ "$1" != "start" ]
+  if [ "$1" "!=" "start" ]
   then
     echo "Usage: sportd start [OPTION]"
     echo "Options: "
@@ -36,12 +37,12 @@ function sportd() {
   printf "${GREEN}Installing all requirements${NC}\n"
   pip install -r requirement.txt
 
-  if [ "$2" == "-c" ]
+  if [ "$2" "==" "-c" ]
   then
     crawl_news
   fi
 
-  if [ "$2" == "-cc" ]
+  if [ "$2" "==" "-cc" ]
   then
     crawl_news
     sentiment_analysis
