@@ -28,7 +28,7 @@ We run the crawler by using the following command:
 $ python crawler/news_crawler.py
 ```
 
-Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created at the root directory of this project.
+Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created at the `data` directory of this project.
 
 ## Indexing
 
@@ -47,10 +47,11 @@ The classifier will call the API from [text-processing.com](text-processing.com/
 $ python classifier/classify.py
 ```
 
-Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the root directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
+Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the 'data' directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
 
 ## UI Client
-Current UI version has two functions:
+
+We have a simple user interface that use Solr server to retrieve sport news. Current UI version has two functions:
 
 - A button to trigger the crawling in the backend
 - A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
@@ -58,3 +59,58 @@ Current UI version has two functions:
 *Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend.*
 
 *Note: In the current implementation, a HTTP GET request is made to UI/fake_news.json and display the records in that file. In the future, we need to query the backend solr and we shall also edit the html template based on its schema.*
+
+To install all components for this website, we first need to install bower using [node package manager](https://www.npmjs.com/):
+
+```Shell
+$ npm install -g bower
+```
+
+Then we install all dependencies using bower:
+
+```Shell
+$ cd UI
+$ bower install
+```
+
+You can open the `UI/index.html` file to view the simple website. Please take note that some functionality may not work if you didn't run Solr server and serve static content from the same domain.
+
+## But wait, there are so many things I need to do to run the simple website!
+
+Yeah you are right. You need to install all Python requirements, install all bower components, crawl data, classifier data, host static files using some kind of server, run solr server and index data using solr. Tedious right? Let's magic happens!
+
+Prerequisite:
+
+- Mac OSX or Unix (Windows user can use Git Bash or [Cygwin](https://www.cygwin.com), but there is not guarantee that things will work as expected)
+- [Docker Toolbox](https://www.docker.com/products/docker-toolbox) is installed
+- Python 2 or 3 and Python Package Manager (pip) is installed
+- [Bower](http://bower.io) is installed
+
+First, we need to make sure that your Docker client is connected to your Docker daemon. 
+
+```Shell
+$ docker-machine start
+$ docker-machine env default
+
+# Only Mac OSX and Linux can run the following command.
+# For Windows users, please copy paste the output of previous command to your
+# command line. 
+$ eval $(docker-machine env default) 
+```
+
+Alternatively, Mac OSX and Windows users can connect to Docker daemon using `Docker Quickstart Terminal` program. 
+
+Next, we run all these tedious steps using the following commands:
+
+```Shell
+$ source sportd.sh
+
+# If you want to crawl, classify, start solr server and website
+$ sportd start -cc
+
+# If you do not want to classify, and only want to crawl, start solr server and website
+$ sportd start -c
+
+# If you do not want to crawl and classify, and only want to start solr server and website
+$ sportd start
+```

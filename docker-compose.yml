@@ -1,7 +1,17 @@
+proxy:
+  build: .
+  dockerfile: proxy/Dockerfile
+  links:
+  - solr
+  ports:
+  - "80:80"
+  - "443:443"
+  volumes:
+  - ./UI/:/usr/share/nginx/html/:rw
 solr:
   build: .
   dockerfile: index/Dockerfile
   ports:
   - "8983:8983"
   volumes:
-  - ./data/:/opt/solr/data:rw
+  - ./data/:/opt/solr/data/:rw
