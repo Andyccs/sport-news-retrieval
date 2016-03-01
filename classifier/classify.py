@@ -12,6 +12,8 @@ def classify(filename):
 
   # do sentiment analysis
   for index, tweet in enumerate(tweets):
+    # TODO(andyccs): current implementation is too slow, we just get the results of first
+    # 10 sentiment analysis for testing purpose
     if index % 10 == 0 and index == 10:
       print 'processing: %.2f%%' % (float(index) / len(tweets) * 100.0)
       break

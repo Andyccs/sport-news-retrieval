@@ -93,13 +93,13 @@ First, we need to make sure that your Docker client is connected to your Docker 
 
 ```Shell
 # Only Mac OSX can run the following command.
-$ docker-machine start
+$ docker-machine start default
 $ docker-machine env default
-$ eval $(docker-machine env default) 
+$ eval $(docker-machine env default)
 
 # For Windows users, please copy paste the output of previous command to your
 # command line. 
-$ docker-machine start
+$ docker-machine start default
 $ docker-machine env default
 
 # For Linux
