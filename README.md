@@ -56,9 +56,9 @@ We have a simple user interface that use Solr server to retrieve sport news. Cur
 - A button to trigger the crawling in the backend
 - A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
 
-*Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend.*
+*Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend.(I think in this step, we need a backend server to accomplish recrawling task)*
 
-*Note: In the current implementation, a HTTP GET request is made to UI/fake_news.json and display the records in that file. In the future, we need to query the backend solr and we shall also edit the html template based on its schema.*
+*Note: I have already implemented the function that angularjs would make a cross-domain query on solr with keywords from user. Query execution time are displayed below search bar accordingly *
 
 To install all components for this website, we first need to install bower using [node package manager](https://www.npmjs.com/):
 
