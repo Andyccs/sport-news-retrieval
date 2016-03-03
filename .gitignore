@@ -77,3 +77,6 @@ index/solr/sport/data
 # Ignore Bower and Nodes Components
 bower_components/
 node_modules/
+
+# MAC OS temp file
+.DS_Store/
