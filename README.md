@@ -151,7 +151,7 @@ Build docker images:
 
 ```Shell
 $ export PROJECT_ID=sport-news-retrieval
-$ export VERSION=v1.1-rc2
+$ export VERSION=v1.1-rc4
 $ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:${VERSION} --file proxy/Dockerfile .
 $ docker build -t asia.gcr.io/${PROJECT_ID}/solr:${VERSION} --file index/Dockerfile .
 

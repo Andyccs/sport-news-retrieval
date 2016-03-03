@@ -11,7 +11,12 @@ app.controller('newsCtrl', function($scope, $http) {
   $scope.comment = 'Popular searches: Warriors, Curry for Three';
   $('#search').click(function() {
     var keywords = $scope.keywords;
-    var url = 'http://localhost/solr/sport/select?json.wrf=JSON_CALLBACK&' +
+
+    // You may prefix this with http://localhost:8983 but please do not check that in. In real
+    // deployment scenario, Solr will never live in localhost, but it will live in another server /
+    // computer. We should not specify any domain name as well, such as http://example.com, because
+    // you are not allow to do cross domain request.
+    var url = 'solr/sport/select?json.wrf=JSON_CALLBACK&' +
         'q=' + keywords +
         '&wt=json';
 
