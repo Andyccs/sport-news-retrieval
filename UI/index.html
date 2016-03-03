@@ -51,11 +51,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <div class="news-container" >
     <div class="news" ng-repeat="x in news">
       <div class="row">
-        <div class="col-md-4 bold">Source: {{x.Source}}</div>
-        <div class="col-md-4 it">{{x.Time}}</div>
+        <div class="col-md-4 bold">Source: {{x.author}}</div>
+        <div class="col-md-4 it">{{x.created_at}}</div>
         <div class="col-md-4">Tag: {{x.Tag}}</div>
       </div>
-    <p>{{x.Content}}</p>
+    <p>{{x.text}}</p>
     </div>
   </div>
   <!--search end here-->  
