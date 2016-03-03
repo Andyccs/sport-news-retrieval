@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: solr-node
+  namespace: default
+  labels:
+    role: solr-node
+    usage: prod
+spec:
+  replicas: 1
+  selector:
+    role: solr-node
+  template:
+    metadata:
+      labels:
+        role: solr-node
+    spec:
+      containers:
+      - name: solr-node
+        image: asia.gcr.io/sport-news-retrieval/solr:v1.1-rc2
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 8983

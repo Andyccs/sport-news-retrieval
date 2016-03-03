@@ -11,7 +11,7 @@ app.controller('newsCtrl', function($scope, $http) {
   $scope.comment = 'Popular searches: Warriors, Curry for Three';
   $('#search').click(function() {
     var keywords = $scope.keywords;
-    var url = 'http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&' +
+    var url = 'http://localhost/solr/sport/select?json.wrf=JSON_CALLBACK&' +
         'q=' + keywords +
         '&wt=json';
 

@@ -151,11 +151,12 @@ Build docker images:
 
 ```Shell
 $ export PROJECT_ID=sport-news-retrieval
-$ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:v1 --file proxy/Dockerfile .
-$ docker build -t asia.gcr.io/${PROJECT_ID}/solr:v1 --file index/Dockerfile .
+$ export VERSION=v1.1-rc2
+$ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:${VERSION} --file proxy/Dockerfile .
+$ docker build -t asia.gcr.io/${PROJECT_ID}/solr:${VERSION} --file index/Dockerfile .
 
-$ gcloud docker push asia.gcr.io/${PROJECT_ID}/proxy:v1
-$ gcloud docker push asia.gcr.io/${PROJECT_ID}/solr:v1
+$ gcloud docker push asia.gcr.io/${PROJECT_ID}/proxy:${VERSION}
+$ gcloud docker push asia.gcr.io/${PROJECT_ID}/solr:${VERSION}
 ```
 
 Create cluster:
@@ -179,15 +180,15 @@ $ gcloud config set compute/zone asia-east1-a
 $ gcloud config set container/cluster sport-news-retrieval
 $ gcloud container clusters get-credentials sport-news-retrieval
 
-$ kubectl run proxy-node --image=asia.gcr.io/${PROJECT_ID}/proxy:v1 --port=80
-$ kubectl run solr-node --image=asia.gcr.io/${PROJECT_ID}/solr:v1 --port=8983
+$ kubectl create -f kubernete/proxy-rc.yml
+$ kubectl create -f kubernete/solr-rc.yml
 ```
 
 Allow external traffic
 
 ```Shell
-$ kubectl expose rc proxy-node --type="LoadBalancer"
-$ kubectl expose rc solr-node --type="LoadBalancer"
+$ kubectl create -f kubernete/proxy-service.yml
+$ kubectl create -f kubernete/solr-service.yml
 ```
 
 View Status:
@@ -211,3 +212,4 @@ $ kubectl delete services proxy-node
 $ kubectl delete rc proxy-node
 $ kubectl delete rc solr-node
 ```
+

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: proxy-node
+  namespace: default
+  labels:
+    role: proxy-node
+    usage: prod
+spec:
+  replicas: 1
+  selector:
+    role: proxy-node
+  template:
+    metadata:
+      labels:
+        role: proxy-node
+    spec:
+      containers:
+      - name: proxy-node
+        image: asia.gcr.io/sport-news-retrieval/proxy:v1.1-rc2
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 80
