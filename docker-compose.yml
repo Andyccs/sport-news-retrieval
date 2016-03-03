@@ -2,13 +2,13 @@ proxy:
   build: .
   dockerfile: proxy/Dockerfile
   links:
-  - solr
+  - solr-node
   ports:
   - "80:80"
   - "443:443"
   volumes:
   - ./UI/:/usr/share/nginx/html/:rw
-solr:
+solr-node:
   build: .
   dockerfile: index/Dockerfile
   ports:

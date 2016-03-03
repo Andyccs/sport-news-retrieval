@@ -60,5 +60,5 @@ function sportd() {
   sleep 3
 
   printf "${GREEN}Indexing data${NC}\n"
-  docker exec sportnewsretrieval_solr_1 bin/post -c sport data/*.json  
+  docker exec sportnewsretrieval_solr-node_1 bin/post -c sport data/*.json
 }

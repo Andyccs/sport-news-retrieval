@@ -144,3 +144,70 @@ To stop the magic from happening:
 ```Shell
 $ sportd stop
 ```
+
+## Deploy to Google Container Engine
+
+Build docker images:
+
+```Shell
+$ export PROJECT_ID=sport-news-retrieval
+$ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:v1 --file proxy/Dockerfile .
+$ docker build -t asia.gcr.io/${PROJECT_ID}/solr:v1 --file index/Dockerfile .
+
+$ gcloud docker push asia.gcr.io/${PROJECT_ID}/proxy:v1
+$ gcloud docker push asia.gcr.io/${PROJECT_ID}/solr:v1
+```
+
+Create cluster:
+
+```Shell
+# Only do the following for once
+$ gcloud container clusters create sport-news-retrieval \
+    --num-nodes 1 \
+    --machine-type g1-small
+
+# Check the newly created instances
+$ gcloud compute instances list
+```
+
+Create your pods:
+
+```Shell
+# Config gcloud and kubectl, only do the following for once
+$ gcloud config set project sport-news-retrieval
+$ gcloud config set compute/zone asia-east1-a
+$ gcloud config set container/cluster sport-news-retrieval
+$ gcloud container clusters get-credentials sport-news-retrieval
+
+$ kubectl run proxy-node --image=asia.gcr.io/${PROJECT_ID}/proxy:v1 --port=80
+$ kubectl run solr-node --image=asia.gcr.io/${PROJECT_ID}/solr:v1 --port=8983
+```
+
+Allow external traffic
+
+```Shell
+$ kubectl expose rc proxy-node --type="LoadBalancer"
+$ kubectl expose rc solr-node --type="LoadBalancer"
+```
+
+View Status:
+
+```Shell
+$ kubectl get pods
+$ kubectl get services
+```
+
+Indexing to solr:
+```Shell
+$ bin/post -c sport -host <external ip of solr-node> data/*.json
+```
+
+Stop all pods and services:
+
+```Shell
+$ kubectl delete services solr-node
+$ kubectl delete services proxy-node
+
+$ kubectl delete rc proxy-node
+$ kubectl delete rc solr-node
+```
