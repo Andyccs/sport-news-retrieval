@@ -38,7 +38,8 @@ The recrawler will be served as a backend Django server and rely on the crawler 
 ```Shell
 $ python manage.py runserver
 ```
-3. To test it, simply submit a POST request to `http://127.0.0.1:8000/recrawl/` using javascript. It will return a HTTP reponse immediately and trigger the backend task.
+
+To test it, simply submit a POST request to `http://127.0.0.1:8000/recrawl/` using javascript. It will return a HTTP reponse immediately and trigger the backend task.
 
 ## Indexing
 
