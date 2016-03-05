@@ -30,6 +30,16 @@ $ python crawler/news_crawler.py
 
 Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created at the `data` directory of this project.
 
+## Recrawler
+The recrawler will be served as a backend Django server and rely on the crawler to do the recrawling task for incremental index. When user submits a request to the server, it will perform an asynchronous task to crawl the tweets and upload the json file to Solr server.
+
+1. Create a file `tweeter_key.py` in `recrawler\cz4034\recrawl` folder as shown in Crawler section. 
+2. Navigate to `recrawler\cz4034` and run the localhost by using the following command:
+```Shell
+$ python manage.py runserver
+```
+3. To test it, simply submit a POST request to `http://127.0.0.1:8000/recrawl/` using javascript. It will return a HTTP reponse immediately and trigger the backend task.
+
 ## Indexing
 
 We start Solr 5.0 server and index our data by using the following commands:
