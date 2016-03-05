@@ -36,4 +36,4 @@ def recrawl(request):
   print "BEGIN"
   p = Pool(processes=1)
   result = p.apply_async(updateJSON)
-  return HttpResponse("Recrawling")
+  return HttpResponse()
