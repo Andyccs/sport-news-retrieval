@@ -8,32 +8,24 @@ import urllib2
 import socket
 
 
-class MyException(Exception):
-  pass
-
-
 def updateJSON():
   # crawl json from twitter
   result_json = news_crawler.crawl('espn', 1)
-  print result_json
-
+  
   # send json file to SOLR server
   try:
-    req = urllib2.Request(url='http://localhost:8983/solr/update/json?commit=true',
+    req = urllib2.Request(url='http://localhost:8983/solr/sport/update/json?commit=true',
                           data=result_json)
     req.add_header('Content-type', 'application/json')
     response = urllib2.urlopen(req, timeout=2)
-  except urllib2.URLError, e:
-    print type(e)
-    raise MyException("Error: %r" % e)
-  except socket.timeout, e:
-    print type(e)
-    raise MyException("Error: %r" % e)
+  except (socket.timeout, urllib2.URLError) as error:
+    print error
+    raise
 
 
 @csrf_exempt
 def recrawl(request):
-  print "BEGIN"
+  print 'recrawling tweets'
   p = Pool(processes=1)
   result = p.apply_async(updateJSON)
   return HttpResponse()

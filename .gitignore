@@ -81,3 +81,6 @@ node_modules/
 
 # MAC OS temp file
 .DS_Store/
+
+# SQLite 3
+*.sqlite3

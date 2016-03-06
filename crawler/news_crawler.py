@@ -31,7 +31,7 @@ class ModelEncoder(json.JSONEncoder):
     return json.JSONEncoder.default(self, obj)
 
 
-def crawl(name, total_page):
+def crawl(name, total_page, store=False):
   print 'crawling', name, 'tweeter timeline'
 
   auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -60,14 +60,17 @@ def crawl(name, total_page):
 
   result_json = json.dumps(result, cls=ModelEncoder)
 
-  if not os.path.exists('data/'):
-    os.makedirs('data/')
+  if store:
+    if not os.path.exists('data/'):
+      os.makedirs('data/')
 
-  f = open('data/' + name + '_data.json', 'w')
-  f.write(result_json)
-  f.close()
+    f = open('data/' + name + '_data.json', 'w')
+    f.write(result_json)
+    f.close()
+
+  return result_json
 
 
 if __name__ == "__main__":
-  crawl('espn', 17)
-  crawl('TheNBACentral', 17)
+  crawl('espn', 17, store=True)
+  crawl('TheNBACentral', 17, store=True)
