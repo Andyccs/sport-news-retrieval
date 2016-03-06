@@ -28,8 +28,8 @@ app.controller('newsCtrl', function($scope, $http) {
   $('#crawl').click(function() {
     // Here initialize a recrawling request to backend
     // Upon finished, generate an alert window
-    var url = 'recrawler-service/recrawl?json.wrf=JSON_CALLBACK'
-    $http.jsonp(url).success(function(data) {
+    var url = 'recrawler-service/recrawl'
+    $http.get(url).success(function(data) {
       alert('Recrawling in background');
     });
   });
