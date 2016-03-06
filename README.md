@@ -61,6 +61,15 @@ $ python classifier/classify.py
 
 Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the 'data' directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
 
+Next, run main.py. It does preprocessing to the data crawled. And runs 2 classifiers next.  
+```Shell
+$ python classifier/main.py
+```
+The figure folder contains the graphs of the precision recall curve. The model folder contains the trained classifier. 
+
+### Inter annotator agreement
+The preprocessing.py class calls the nltk [annotation task][https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py].
+
 ## UI Client
 
 We have a simple user interface that use Solr server to retrieve sport news. Current UI version has two functions:
