@@ -50,13 +50,13 @@ app.controller('newsCtrl', function($scope, $http) {
     // deployment scenario, Solr will never live in localhost, but it will live in another server /
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
-    // var url = 'solr/sport/select?json.wrf=JSON_CALLBACK&' +
-  //       'q=' + keywords +
-  //   '&wt=json';
-
-    var url = 'http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&' +
+    var url = 'solr/sport/select?json.wrf=JSON_CALLBACK&' +
         'q=' + keywords +
     '&wt=json';
+
+    // var url = 'http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&' +
+//         'q=' + keywords +
+//     '&wt=json';
 
     $http.jsonp(url).success(function(data) {
 
