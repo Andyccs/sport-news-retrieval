@@ -40,7 +40,7 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
-To test the recrawler, we just need to submit a GET/POST request to `http://localhost:8000/recrawl/`. The recrawler will return a 200 HTTP reponse immediately and crawling the first 200 tweets from selected accounts asynchronously.
+To test the recrawler, we just need to submit a GET/POST request to `http://localhost:8000/recrawler-service/recrawl`. The recrawler will return a 200 HTTP reponse immediately and crawling the first 200 tweets from selected accounts asynchronously.
 
 ## Indexing
 
@@ -163,12 +163,14 @@ Build docker images:
 
 ```Shell
 $ export PROJECT_ID=sport-news-retrieval
-$ export VERSION=v1.1-rc4
+$ export VERSION=v1.1-rc5
 $ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:${VERSION} --file proxy/Dockerfile .
 $ docker build -t asia.gcr.io/${PROJECT_ID}/solr:${VERSION} --file index/Dockerfile .
+$ docker build -t asia.gcr.io/${PROJECT_ID}/recrawler:${VERSION} --file recrawler/Dockerfile .
 
 $ gcloud docker push asia.gcr.io/${PROJECT_ID}/proxy:${VERSION}
 $ gcloud docker push asia.gcr.io/${PROJECT_ID}/solr:${VERSION}
+$ gcloud docker push asia.gcr.io/${PROJECT_ID}/recrawler:${VERSION}
 ```
 
 Create cluster:
@@ -192,8 +194,15 @@ $ gcloud config set compute/zone asia-east1-a
 $ gcloud config set container/cluster sport-news-retrieval
 $ gcloud container clusters get-credentials sport-news-retrieval
 
+# If you want to create new replication controller (typically for first time users)
 $ kubectl create -f kubernete/proxy-rc.yml
 $ kubectl create -f kubernete/solr-rc.yml
+$ kubectl create -f kubernete/recrawler-rc.yml
+
+# If you just want to update images
+$ kubectl rolling-update proxy-node --image=asia.gcr.io/${PROJECT_ID}/proxy:${VERSION}
+$ kubectl rolling-update solr-node --image=asia.gcr.io/${PROJECT_ID}/solr:${VERSION}
+$ kubectl rolling-update recrawler-node --image=asia.gcr.io/${PROJECT_ID}/recrawler:${VERSION}
 ```
 
 Allow external traffic
@@ -201,6 +210,7 @@ Allow external traffic
 ```Shell
 $ kubectl create -f kubernete/proxy-service.yml
 $ kubectl create -f kubernete/solr-service.yml
+$ kubectl create -f kubernete/recrawler-service.yml
 ```
 
 View Status:
@@ -220,8 +230,10 @@ Stop all pods and services:
 ```Shell
 $ kubectl delete services solr-node
 $ kubectl delete services proxy-node
+$ kubectl delete services recrawler-node
 
 $ kubectl delete rc proxy-node
 $ kubectl delete rc solr-node
+$ kubectl delete services recrawler-node
 ```
 

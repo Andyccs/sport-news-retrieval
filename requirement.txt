@@ -1,2 +1,0 @@
-tweepy==3.5.0
-django==1.9

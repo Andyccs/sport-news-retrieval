@@ -17,6 +17,11 @@ function sentiment_analysis() {
   python classifier/classify.py
 }
 
+function install_python_requirements() {
+  printf "${GREEN}Installing all requirements${NC}\n"
+  pip install -r requirements.txt
+}
+
 function sportd() {
   if [ "$1" "==" "stop" ]
   then
@@ -34,16 +39,16 @@ function sportd() {
     return
   fi
 
-  printf "${GREEN}Installing all requirements${NC}\n"
-  pip install -r requirement.txt
 
   if [ "$2" "==" "-c" ]
   then
+    install_python_requirements
     crawl_news
   fi
 
   if [ "$2" "==" "-cc" ]
   then
+    install_python_requirements
     crawl_news
     sentiment_analysis
     rm data/*_data.json

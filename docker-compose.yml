@@ -3,6 +3,7 @@ proxy:
   dockerfile: proxy/Dockerfile
   links:
   - solr-node
+  - recrawler-node
   ports:
   - "80:80"
   - "443:443"
@@ -15,3 +16,11 @@ solr-node:
   - "8983:8983"
   volumes:
   - ./data/:/opt/solr/data/:rw
+recrawler-node:
+  build: .
+  dockerfile: recrawler/Dockerfile
+  ports:
+  - "8000:8000"
+  volumes:
+  - ./crawler/:/usr/src/app/crawler/:rw
+  - ./recrawler/:/usr/src/app/recrawler/:rw

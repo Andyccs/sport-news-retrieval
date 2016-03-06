@@ -19,8 +19,7 @@ from django.contrib import admin
 from recrawl import views
 
 urlpatterns = [
-  # We disable admin access
-  # url(r'^admin/', admin.site.urls),
-
-  url(r'^recrawl/$', views.recrawl),
+    # We disable admin access
+    # url(r'^admin/', admin.site.urls),
+    url(r'^recrawler-service/recrawl$', views.recrawl),
 ]

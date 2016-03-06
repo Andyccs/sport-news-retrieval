@@ -1,8 +1,3 @@
-$('#crawl').click(function() {
-  // Here initialize a recrawling request to backend
-  // Upon finished, generate an alert window
-  alert('Finish Recrawling');
-});
 
 var app = angular.module('myApp', []);
 
@@ -27,6 +22,15 @@ app.controller('newsCtrl', function($scope, $http) {
       var queryTime = data.responseHeader.QTime;
 
       $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
+    });
+  });
+
+  $('#crawl').click(function() {
+    // Here initialize a recrawling request to backend
+    // Upon finished, generate an alert window
+    var url = 'recrawler-service/recrawl'
+    $http.jsonp(url).success(function(data) {
+      alert('Recrawling in background');
     });
   });
 });
