@@ -18,4 +18,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from recrawl import views
 
-urlpatterns = [url(r'^admin/', admin.site.urls), url(r'^recrawl/$', views.recrawl),]
+urlpatterns = [
+  # We disable admin access
+  # url(r'^admin/', admin.site.urls),
+
+  url(r'^recrawl/$', views.recrawl),
+]
