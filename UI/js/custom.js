@@ -2,17 +2,22 @@
 var app = angular.module('myApp', []);
 var pageSize = 5;
 var currPage = 1;
-var news = [];
 
-function displayedNews(page,news) {
-  var lower = (page - 1) * pageSize;
-  var higher = page * pageSize;
+function constructURL(keywords) {
+    var start = (currPage - 1) * pageSize;
 
-  if (higher > news.length) {
-    higher = news.length;
-  }
-  return news.slice(lower,higher);
+    // You may prefix this with http://localhost:8983 but please do not check that in. In real
+    // deployment scenario, Solr will never live in localhost, but it will live in another server /
+    // computer. We should not specify any domain name as well, such as http://example.com, because
+    // you are not allow to do cross domain request.
+    var url = 'solr/sport/select?json.wrf=JSON_CALLBACK&' +
+        'q=' + keywords +
+        '&start=' + start + 
+        '&rows=' + pageSize + 
+        '&wt=json';  
+    return url  	
 }
+
 
 app.controller('newsCtrl', function($scope, $http) {
   $scope.currPage = 0;
@@ -25,50 +30,64 @@ app.controller('newsCtrl', function($scope, $http) {
     if (currPage == 1) {
       $('#pre').attr('disabled','disabled');
     }
-    $scope.news = displayedNews(currPage,news);
-    $scope.$digest();
+
+    var keywords = $scope.keywords;
+    var url = constructURL(keywords);
+    $http.jsonp(url).success(function(data) {
+      $scope.currPage = currPage ;
+      $scope.news = data.response.docs ;
+
+      var queryTime = data.responseHeader.QTime;
+
+      $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
+      $scope.$digest();
+    
+    });
   });
 
   $('#next').click(function() {
     currPage = currPage + 1;
     $scope.currPage = currPage;
     $('#pre').removeAttr('disabled');
-    if (currPage == Math.ceil(news.length / pageSize)) {
+    if (currPage ==  $scope.pageCount) {
       $('#next').attr('disabled','disabled');
     }
-    $scope.news = displayedNews(currPage,news);
-    $scope.$digest();
+
+    var keywords = $scope.keywords;
+    var url = constructURL(keywords);
+    $http.jsonp(url).success(function(data) {
+      $scope.currPage = currPage ;
+      $scope.news = data.response.docs ;
+
+      var queryTime = data.responseHeader.QTime;
+
+      $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
+      $scope.$digest();
+    
+    });
   });
 
   $scope.comment = 'Popular searches: Warriors, Curry for Three';
   $('#search').click(function() {
     $('#next').attr('disabled','disabled');;
     $('#pre').attr('disabled','disabled');
+    currPage = 1;
 
     var keywords = $scope.keywords;
-
-    // You may prefix this with http://localhost:8983 but please do not check that in. In real
-    // deployment scenario, Solr will never live in localhost, but it will live in another server /
-    // computer. We should not specify any domain name as well, such as http://example.com, because
-    // you are not allow to do cross domain request.
-    var url = 'solr/sport/select?json.wrf=JSON_CALLBACK&' +
-        'q=' + keywords +
-        '&wt=json';
-
+    var url = constructURL(keywords);
     $http.jsonp(url).success(function(data) {
-      news = data.response.docs ;
-      currPage = 1;
       $scope.currPage = currPage ;
-      $scope.pageCount = Math.ceil(news.length / pageSize) ;
+      $scope.pageCount = Math.ceil(data.response.numFound / pageSize) ;
       if ($scope.pageCount > 1) {
         $('#next').removeAttr('disabled');
       }
 
-      $scope.news = displayedNews(currPage,news) ;
+      $scope.news = data.response.docs ;
 
       var queryTime = data.responseHeader.QTime;
 
       $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
+    
     });
   });
 
