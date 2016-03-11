@@ -47,6 +47,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
     <p>{{comment}}</p>
   </div>
+
+  <div class="row" style="padding-top:50px">
+	<div class="col-md-3">
+	    Hello World!
+	</div>
+        <div class="col-md-9">
+	    <div class="news" ng-repeat="x in news">
+	      <div class="row">
+		<div class="col-md-4 bold">Source: {{x.author}}</div>
+		<div class="col-md-4 it">{{x.created_at}}</div>
+		<div class="col-md-4">Tag: {{x.Tag}}</div>
+	      </div>
+	    <p>{{x.text}}</p>
+	    </div>
+	  </div>
+	</div>
+</div>
+
   <div class="row" >
         <div class="col-xs-1">
         	<button type="button" class="btn btn-default" id="pre" disabled="disabled" >Previous</button>
@@ -57,18 +75,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="col-xs-1 col-xs-offset-4">
 		<button type="button" class="btn btn-default " id="next" disabled="disabled"  >Next</button>
 	</div>
-  	
-	
-  </div>
-  <div class="news-container" >
-    <div class="news" ng-repeat="x in news">
-      <div class="row">
-        <div class="col-md-4 bold">Source: {{x.author}}</div>
-        <div class="col-md-4 it">{{x.created_at}}</div>
-        <div class="col-md-4">Tag: {{x.Tag}}</div>
-      </div>
-    <p>{{x.text}}</p>
-    </div>
   </div>
   <!--search end here-->  
 
