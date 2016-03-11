@@ -45,12 +45,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <input type="submit" id="search" value="Search"/>
       </form>
     </div>
-    <p>{{comment}}</p>
+    <p id="comment" style=" font-style: italic;"></p>
   </div>
 
-  <div class="row" style="padding-top:50px">
+  <div class="row" style="padding-top:50px;padding-bottom:50px">
 	<div class="col-md-3">
-	    Hello World!
+		<h1 style="font-size:150%">{{queryTime}} </h1>
+		
+		<br>
+		<div style="padding:30px 0 30px 0">
+			<h1 style="font-size:150%"> Date Range Selection </h1>
+			<h1>From: </h1>
+			<input type="date" id="from"/>
+			<h1>To: </h1>
+			<input type="date" id="to"/>
+			<br>
+			<br>
+		</div>
+		<div id="filter" style="padding:30px 0 30px 0">
+		
+			<h1 style="font-size:150%">Source Filter: </h1>
+		
+			<div class="checkbox" ng-repeat="s in sources">
+			  <label>
+			    <input type="checkbox" value={{s}}>
+			    {{s}}
+			  </label>
+			</div>
+
+		</div>
+
 	</div>
         <div class="col-md-9">
 	    <div class="news" ng-repeat="x in news">
