@@ -38,6 +38,10 @@ body {
    
 }
 
+input[type=date] {
+	color:black;
+}
+
 .header{
 	text-align:center;
 	margin:0.4em 0 0 0;
