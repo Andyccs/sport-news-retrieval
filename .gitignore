@@ -80,7 +80,7 @@ bower_components/
 node_modules/
 
 # MAC OS temp file
-.DS_Store/
+.DS_Store
 
 # SQLite 3
 *.sqlite3
