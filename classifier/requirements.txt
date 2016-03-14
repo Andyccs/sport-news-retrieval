@@ -1,4 +1,3 @@
-pytz==2015.7
 nltk==3.2
 beautifulsoup4==4.4.1
 gensim==0.12.4
