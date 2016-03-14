@@ -2,22 +2,25 @@ setTheme();
 
 //Later retrieve the actual vale
 var predictedSentiData = [];
-var predictedPosData = new Object();
+var predictedPosData = {
+  name: 'Positive',
+  y: 123
+};
 
-predictedPosData.name = 'Positive';
-predictedPosData.y = 123;
 predictedSentiData.push(predictedPosData);
 
-var predictedNegData = new Object();
+var predictedNegData = {
+  name: 'Negative',
+  y: 25
+};
 
-predictedNegData.name = 'Negative';
-predictedNegData.y = 25;
 predictedSentiData.push(predictedNegData);
 
-var predictedNeuData = new Object();
+var predictedNeuData = {
+  name: 'Neutral',
+  y: 52
+};
 
-predictedNeuData.name = 'Neutral';
-predictedNeuData.y = 52;
 predictedSentiData.push(predictedNeuData);
 
 
@@ -42,7 +45,7 @@ $('#sentiPie').highcharts({
         enabled: true,
         format: '<b>{point.name}</b>: {point.percentage:.1f} %',
         style: {
-          color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+          color: Highcharts.theme && Highcharts.theme.contrastTextColor || 'black'
         }
       }
     }
@@ -54,23 +57,28 @@ $('#sentiPie').highcharts({
 });
 
 var trueSentiData = [];
-var truePosData = new Object();
+var truePosData = {
+  name: 'True Positive',
+  //4 are classified as positive, 1 is classified as neural, 2 are classified as negative.
+  data: [4, 1, 2]
+};
 
-truePosData.name = 'True Positive';
-//4 are classified as positive, 1 is classified as neural, 2 are classified as negative.
-truePosData.data = [4, 1, 2];
 trueSentiData.push(truePosData);
 
-var trueNeuData = new Object();
-trueNeuData.name = 'True Neutral';
-//1 are classified as positive, 4 is classified as neural, 2 are classified as negative.
-trueNeuData.data = [1, 8, 2];
+var trueNeuData = {
+  name: 'True Neutral',
+  //1 are classified as positive, 4 is classified as neural, 2 are classified as negative.
+  data: [1, 8, 2]
+};
+
 trueSentiData.push(trueNeuData);
 
-var trueNegData = new Object();
-trueNegData.name = 'True Negative';
-//2 are classified as positive, 3 is classified as neural, 8 are classified as negative.
-trueNegData.data = [2, 3, 8];
+var trueNegData = {
+  name: 'True Negative',
+  //2 are classified as positive, 3 is classified as neural, 8 are classified as negative.
+  data: [2, 3, 8]
+};
+
 trueSentiData.push(trueNegData);
 
 $('#sentiBar').highcharts({
