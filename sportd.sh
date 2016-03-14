@@ -19,7 +19,8 @@ function sentiment_analysis() {
 
 function install_python_requirements() {
   printf "${GREEN}Installing all requirements${NC}\n"
-  pip install -r requirements.txt
+  pip install -r crawler/requirements.txt
+  pip install -r classifier/requirements.txt
 }
 
 function sportd() {
