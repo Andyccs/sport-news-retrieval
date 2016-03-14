@@ -8,10 +8,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <head>
   <title>CZ4034 Assignment</title>
 
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
   <!-- Custom Theme files -->
 
@@ -20,25 +19,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
 
   <!--Google Font-->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 </head>
 
-<body class="container" ng-app="myApp" ng-controller="newsCtrl" > 
-  
+<body class="container" ng-app="myApp" ng-controller="newsCtrl">
+
   <!--search start here-->
   <ul class="nav nav-tabs">
     <li role="presentation" class="active"><a href="#">Search</a></li>
     <li role="presentation" ><a href="statistics.html">Statistics</a></li>
-    
+
    <button type="button" id="crawl" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
      Crawl
    </button>
   </ul>
-  
+
   <div class="header">
     <h1>NBA News Retrieval</h1>
   </div>
-  
+
   <div class="row search">
     <i> </i>
     <div class="s-bar">
@@ -51,62 +50,59 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   </div>
 
   <div class="row" style="padding-top:50px;padding-bottom:50px">
-	<div class="col-md-3">
-		<h1 style="font-size:150%">{{queryTime}} </h1>
-		
-		<br>
-		<div style="padding:30px 0 30px 0">
-			<h1 style="font-size:150%"> Date Range Selection </h1>
-			<h1>From: </h1>
-			<input type="date" id="from"/>
-			<h1>To: </h1>
-			<input type="date" id="to"/>
-			<br>
-			<br>
-		</div>
-		<div id="filter" style="padding:30px 0 30px 0">
-		
-			<h1 style="font-size:150%">Source Filter: </h1>
-		
-			<div class="checkbox" ng-repeat="s in sources">
-			  <label>
-			    <input type="checkbox" value={{s}}>
-			    {{s}}
-			  </label>
-			</div>
+    <div class="col-md-3">
+      <h1 style="font-size:150%">{{queryTime}} </h1>
 
-		</div>
+      <br>
+      <div style="padding:30px 0 30px 0">
+        <h1 style="font-size:150%"> Date Range Selection </h1>
+        <h1>From: </h1>
+        <input type="date" id="from"/>
+        <h1>To: </h1>
+        <input type="date" id="to"/>
+        <br>
+        <br>
+      </div>
+      <div id="filter" style="padding:30px 0 30px 0">
+        <h1 style="font-size:150%">Source Filter: </h1>
+        <div class="checkbox" ng-repeat="s in sources">
+          <label>
+            <input type="checkbox" value={{s}}>
+            {{s}}
+          </label>
+        </div>
+      </div>
+    </div>
 
-	</div>
-        <div class="col-md-9">
-	    <div class="news" ng-repeat="x in news">
-	      <div class="row">
-		<div class="col-md-4 bold">Source: {{x.author}}</div>
-		<div class="col-md-4 it">{{x.created_at}}</div>
-		<div class="col-md-4">Tag: {{x.Tag}}</div>
-	      </div>
-	    <p>{{x.text}}</p>
-	    </div>
-	  </div>
-	</div>
+    <div class="col-md-9">
+      <div class="news" ng-repeat="x in news">
+        <div class="row">
+          <div class="col-md-4 bold">Source: {{x.author}}</div>
+          <div class="col-md-4 it">{{x.created_at}}</div>
+          <div class="col-md-4">Tag: {{x.Tag}}</div>
+        </div>
+        <p>{{x.text}}</p>
+        </div>
+    </div>
+  </div>
 </div>
 
   <div class="row" >
-        <div class="col-xs-1">
-        	<button type="button" class="btn btn-default" id="pre" disabled="disabled" >Previous</button>
-        </div>
-        <div class="col-xs-2 col-xs-offset-4">
-        	<h1 style="font-size:150%;">Page {{currPage}} of {{pageCount}}</h1>
-        </div>
-        <div class="col-xs-1 col-xs-offset-4">
-		<button type="button" class="btn btn-default " id="next" disabled="disabled"  >Next</button>
-	</div>
+    <div class="col-xs-1">
+      <button type="button" class="btn btn-default" id="pre" disabled="disabled">Previous</button>
+    </div>
+    <div class="col-xs-2 col-xs-offset-4">
+      <h1 style="font-size:150%;">Page {{currPage}} of {{pageCount}}</h1>
+    </div>
+    <div class="col-xs-1 col-xs-offset-4">
+      <button type="button" class="btn btn-default" id="next" disabled="disabled">Next</button>
+    </div>
   </div>
-  <!--search end here-->  
+  <!--search end here-->
 
   <div class="copyright">
     <p>CZ4034 Information Retrieval Team</p>
-  </div>  
+  </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
