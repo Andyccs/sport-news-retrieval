@@ -1,14 +1,14 @@
 import os
+import csv
 
-
-def get_labels(csv):
+def get_labels():
   with open('data/label_1.csv', 'r') as label_file:
     reader = csv.reader(label_file)
     label_list = list(reader)[0]
   return label_list
 
 
-def get_labelled_tweets(csv):
+def get_labelled_tweets():
   with open('data/labelled_tweet.csv', 'r') as label_file:
     reader = csv.reader(label_file)
     tweet_list = list(reader)[0]

@@ -1,4 +1,3 @@
-import csv
 
 import numpy as np
 from data_source import get_labelled_tweets, get_labels, create_directory
@@ -19,8 +18,8 @@ def save_model(model, file_name):
 
 
 def lin_svc():
-  label_list = get_labels(csv)
-  tweet_list = get_labelled_tweets(csv)
+  label_list = get_labels()
+  tweet_list = get_labelled_tweets()
   # vectorise using tfid
   vectoriser = TfidfVectorizer(min_df=3,
                                max_features=None,
