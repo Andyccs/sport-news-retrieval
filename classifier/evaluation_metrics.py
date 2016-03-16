@@ -1,7 +1,7 @@
 import numpy as np
 from data_source import create_directory
 from matplotlib import pyplot as plt
-from sklearn.metrics import accuracy_score, precision_recall_curve, average_precision_score, f1_score
+from sklearn.metrics import accuracy_score, precision_recall_curve, average_precision_score, f1_score, precision_score, recall_score
 
 class_list = ['pos', 'neg', 'neutral']
 
@@ -45,14 +45,18 @@ def evaluate(binarise_result, y_test, y_score, file_name):
   plot_precision_recall_curve_all_classes(average_precision, precision, recall, file_name,
                                           num_class)
 
-  # find f1-score
-  f1_measure = f1_score(y_test, binarise_result)
+  # find precision, recall and f1-score
+  precision = precision_score(y_test, binarise_result, average="macro")
+  recall = recall_score(y_test, binarise_result, average="macro")
+  f1_measure = f1_score(y_test, binarise_result, average="macro")
 
   # save results in a txt file
   create_directory('metric_result')
   text_file = open(file_name + '.txt', 'w')
   with open("metric_result/" + file_name + ".txt", "w") as text_file:
     text_file.write("Accuracy: {0}\n".format(accuracy))
+    text_file.write("Precision: {0}\n".format(precision))
+    text_file.write("Recall: {0}\n".format(recall))
     text_file.write("F1 measure: {0}\n".format(f1_measure))
 
 
