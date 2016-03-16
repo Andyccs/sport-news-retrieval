@@ -7,11 +7,13 @@ import csv
 
 filename = 'espn'
 
+
 def preprocess_tweets(data, stop_words):
   # convert to lower case
   processed_data = [sentence.lower() for sentence in data]
   # remove html
-  processed_data = [BeautifulSoup(sentence, "html.parser").get_text() for sentence in processed_data]
+  processed_data = [BeautifulSoup(sentence, "html.parser").get_text()
+                    for sentence in processed_data]
   # remove stopwords
   processed_data = [list.split() for list in processed_data]
   proc_data = []

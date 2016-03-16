@@ -1,6 +1,7 @@
 import os
 import csv
 
+
 def get_labels():
   with open('data/label_1.csv', 'r') as label_file:
     reader = csv.reader(label_file)

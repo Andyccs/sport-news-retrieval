@@ -21,7 +21,6 @@ def evaluate(binarise_result, y_test, y_score, file_name):
   :rtype:
   """
   num_class = y_test.shape[1]
-  accuracy = accuracy_score(np.array(y_test), np.array(binarise_result))
 
   # Compute Precision-Recall and plot curve
   precision = dict()
@@ -45,14 +44,17 @@ def evaluate(binarise_result, y_test, y_score, file_name):
   plot_precision_recall_curve_all_classes(average_precision, precision, recall, file_name,
                                           num_class)
 
-  # find precision, recall and f1-score
+  generate_eval_metrics(binarise_result, file_name, y_test)
+
+
+def generate_eval_metrics(binarise_result, file_name, y_test):
+  accuracy = accuracy_score(np.array(y_test), np.array(binarise_result))
   precision = precision_score(y_test, binarise_result, average="macro")
   recall = recall_score(y_test, binarise_result, average="macro")
   f1_measure = f1_score(y_test, binarise_result, average="macro")
 
   # save results in a txt file
   create_directory('metric_result')
-  text_file = open(file_name + '.txt', 'w')
   with open("metric_result/" + file_name + ".txt", "w") as text_file:
     text_file.write("Accuracy: {0}\n".format(accuracy))
     text_file.write("Precision: {0}\n".format(precision))
