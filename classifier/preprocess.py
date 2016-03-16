@@ -7,12 +7,11 @@ import csv
 
 filename = 'espn'
 
-
 def preprocess_tweets(data, stop_words):
   # convert to lower case
   processed_data = [sentence.lower() for sentence in data]
   # remove html
-  processed_data = [BeautifulSoup(sentence).get_text() for sentence in processed_data]
+  processed_data = [BeautifulSoup(sentence, "html.parser").get_text() for sentence in processed_data]
   # remove stopwords
   processed_data = [list.split() for list in processed_data]
   proc_data = []
@@ -56,10 +55,8 @@ def preprocess():
   stop_words = stopwords.words('english')
   proc_data = preprocess_tweets(data, stop_words)
   # split into label and unlabelled
-  percentage = 0.10
-  index_value = int(proc_data.__len__() * 0.10)
-  to_be_labelled_data = proc_data[:index_value]
-  unlabelled_data = proc_data[index_value:]
+  to_be_labelled_data = proc_data
+
   # save labelled data to csv
   tweet_list = []
   for row in to_be_labelled_data:
@@ -75,12 +72,10 @@ def preprocess():
     tweets = json.load(json_file)
     for row in tweets:
       label_list.append(row['label'])
-  label_subset = label_list[:index_value]  # first 10 percent of label
 
   # change some results
-  man_1_label = change_some_values(label_subset)
-  man_2_label = change_some_values(label_subset)
-  len(man_1_label)
+  man_1_label = change_some_values(label_list)
+  man_2_label = change_some_values(label_list)
 
   # calculate inter annotator agreement
   civ_1 = ['c1'] * len(man_1_label)
