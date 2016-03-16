@@ -1,10 +1,10 @@
-import numpy as np
 from data_source import get_labelled_tweets, get_labels, create_directory
 from evaluation_metrics import class_list, generate_eval_metrics
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import label_binarize
+from sklearn.cross_validation import train_test_split
 
 
 def save_model(model, file_name):
@@ -32,13 +32,14 @@ def ensemble_classify():
   ## do transformation into vector
   vectoriser.fit(tweet_list)
   vectorised_tweet_list = vectoriser.transform(tweet_list)
-  index_value = int(len(tweet_list) * 0.8)  # 0.8 percent for training set
-  train_vector = vectorised_tweet_list[:index_value]
-  test_vector = vectorised_tweet_list[index_value:]
+  train_vector, test_vector, train_labels, test_labels = train_test_split(vectorised_tweet_list,
+                                                                          label_list,
+                                                                          test_size=0.8,
+                                                                          random_state=42)
 
   n_estimators = 10  # number of weak learners
   model = AdaBoostClassifier(n_estimators=n_estimators)
-  ada_classifier = model.fit(train_vector, label_list[:index_value])
+  ada_classifier = model.fit(train_vector, train_labels)
   result = ada_classifier.predict(test_vector)
 
   # output result to csv
@@ -49,5 +50,5 @@ def ensemble_classify():
 
   # evaluation
   binarise_result = label_binarize(result, classes=class_list)
-  binarise_labels = label_binarize(label_list, classes=class_list)
-  generate_eval_metrics(binarise_result, 'ensemble_ada', binarise_labels[index_value:])
+  binarise_labels = label_binarize(test_labels, classes=class_list)
+  generate_eval_metrics(binarise_result, 'ensemble_ada', binarise_labels)
