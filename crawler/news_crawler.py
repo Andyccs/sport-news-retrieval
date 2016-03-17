@@ -31,7 +31,7 @@ class ModelEncoder(json.JSONEncoder):
     return json.JSONEncoder.default(self, obj)
 
 
-def crawl(name, total_page, store=False):
+def crawl(name, store=False):
   print 'crawling', name, 'tweeter timeline'
 
   auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -39,9 +39,10 @@ def crawl(name, total_page, store=False):
 
   result = []
   api = tweepy.API(auth)
+  i = 1
 
-  for i in range(1, total_page + 1):
-    print 'crawling page', i
+  while True:
+    print 'crawling page', i, 'of', name
 
     tweets = api.user_timeline(name, count=200, page=i)
 
@@ -56,7 +57,11 @@ def crawl(name, total_page, store=False):
       data = Model(unique_id, text, author, created_at, lang, favorite_count)
       result.append(data)
 
+    i += 1
     print 'crawled', len(tweets), 'tweets'
+
+    if len(tweets) == 0:
+      break
 
   result_json = json.dumps(result, cls=ModelEncoder)
 
