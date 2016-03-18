@@ -16,6 +16,14 @@ def save_model(model, file_name):
   joblib.dump(model, 'model/%s.pkl' % file_name)
 
 
+def save_vectoriser(model, file_name):
+  """
+  save vectorised tweets to the data folder
+  """
+  create_directory('model')
+  joblib.dump(model, 'model/%s.pkl' % file_name)
+
+
 def lin_svc():
   label_list = get_labels()
   tweet_list = get_labelled_tweets()
@@ -31,8 +39,8 @@ def lin_svc():
                                sublinear_tf=1,)
 
   ## do transformation into vector
-  vectoriser.fit(tweet_list)
-  vectorised_tweet_list = vectoriser.transform(tweet_list)
+  fitted_vectoriser = vectoriser.fit(tweet_list)
+  vectorised_tweet_list = fitted_vectoriser.transform(tweet_list)
   train_vector, test_vector, train_labels, test_labels = train_test_split(vectorised_tweet_list,
                                                                           label_list,
                                                                           test_size=0.8,
@@ -47,7 +55,8 @@ def lin_svc():
   create_directory('data')
   result.tofile("data/log_reg_result.csv", sep=',')
 
-  save_model(model, 'linear_svc')
+  save_model(ovr_classifier, 'linear_svc')
+  save_vectoriser(fitted_vectoriser, 'tf_idf_vectoriser')
 
   # evaluation
   label_score = ovr_classifier.decision_function(test_vector)
