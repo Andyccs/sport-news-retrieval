@@ -45,8 +45,8 @@ def getAvgFeatureVecs(sentence_list, model, num_features):
 
 def gensim_classifier():
   logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-  label_list = get_labels(csv)
-  tweet_list = get_labelled_tweets(csv)
+  label_list = get_labels()
+  tweet_list = get_labelled_tweets()
 
   # split all sentences to list of words
   sentences = []
