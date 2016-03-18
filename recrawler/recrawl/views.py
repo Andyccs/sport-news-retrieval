@@ -8,14 +8,14 @@ import urllib2
 import socket
 
 
-def updateJSON():
+def updateJSON(account):
   # crawl json from twitter
-  print 'recrawling tweets'
-  result_json = news_crawler.crawl('espn', 1)
+  print 'recrawling tweets from', account
+  result_json = news_crawler.crawl(account)
 
   # send json file to SOLR server
   try:
-    print 'updating solr server'
+    print 'updating solr server for', account 
 
     # You may change solr-node to localhost for development purpose. However, please do not check
     # that in, and keep the base url as solr-node:8983
@@ -30,6 +30,9 @@ def updateJSON():
 
 @csrf_exempt
 def recrawl(request):
-  p = Pool(processes=1)
-  result = p.apply_async(updateJSON)
+  p = Pool(processes=2)
+  res = p.apply_async(updateJSON, args=('espn',))
+  res = p.apply_async(updateJSON, args=('TheNBACentral',))
+  p.close()
+  # p.join()
   return HttpResponse()

@@ -29,7 +29,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <li role="presentation" class="active"><a href="#">Search</a></li>
     <li role="presentation" ><a href="statistics.html">Statistics</a></li>
 
-   <button type="button" id="crawl" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+   <button type="button" ng-click="crawl()" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
      Crawl
    </button>
   </ul>
@@ -43,10 +43,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="s-bar">
       <form>
         <input type="text" ng-model="keywords" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}">
-        <input type="submit" id="search" value="Search"/>
+        <input type="submit" ng-click="search()" value="Search"/>
       </form>
     </div>
-    <p id="comment" style=" font-style: italic;"></p>
+    {{comment}}
   </div>
 
   <div class="row" style="padding-top:50px;padding-bottom:50px">
@@ -57,9 +57,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div style="padding:30px 0 30px 0">
         <h1 style="font-size:150%"> Date Range Selection </h1>
         <h1>From: </h1>
-        <input type="date" id="from"/>
+	<input type="date"  name="input" ng-model="startDate"
+	       placeholder="yyyy-MM-dd" />
         <h1>To: </h1>
-        <input type="date" id="to"/>
+	<input type="date"  name="input" ng-model="endDate"
+	       placeholder="yyyy-MM-dd" />
         <br>
         <br>
       </div>
@@ -67,8 +69,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <h1 style="font-size:150%">Source Filter: </h1>
         <div class="checkbox" ng-repeat="s in sources">
           <label>
-            <input type="checkbox" value={{s}}>
-            {{s}}
+             <input
+                 type="checkbox"
+                 value="{{s}}"
+                 ng-checked="selection.indexOf(s) > -1"
+                 ng-click="toggleSelection(s)"
+               >{{s}}
           </label>
         </div>
       </div>
@@ -89,13 +95,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
   <div class="row" >
     <div class="col-xs-1">
-      <button type="button" class="btn btn-default" id="pre" disabled="disabled">Previous</button>
+      <button type="button" class="btn btn-default" ng-click="pre()" ng-disabled="preDisabled">Previous</button>
     </div>
     <div class="col-xs-2 col-xs-offset-4">
       <h1 style="font-size:150%;">Page {{currPage}} of {{pageCount}}</h1>
     </div>
     <div class="col-xs-1 col-xs-offset-4">
-      <button type="button" class="btn btn-default" id="next" disabled="disabled">Next</button>
+      <button type="button" class="btn btn-default" ng-click="next()" ng-disabled="nextDisabled">Next</button>
     </div>
   </div>
   <!--search end here-->
