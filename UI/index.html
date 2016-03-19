@@ -30,9 +30,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <li role="presentation" class="active"><a href="#">Search</a></li>
     <li role="presentation" ><a href="statistics.html">Statistics</a></li>
 
-   <button type="button" ng-click="crawl()" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
-     Crawl
-   </button>
+    <button type="button" ng-click="crawl()" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+    Crawl
+    </button>
   </ul>
 
   <div class="header">
@@ -43,12 +43,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <i> </i>
     <div class="s-bar">
       <form>
-	      <autocomplete ng-model="keywords" data="items" on-type="update"></autocomplete>
-	      
-        <!-- <input type="text" ng-model="keywords" value="Enter key words here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter key words here';}"> -->
-	
-	    
-      
+        <autocomplete ng-model="keywords" data="items" on-type="update"></autocomplete>
         <input type="submit" ng-click="search()" value="Search"/>
       </form>
     </div>
@@ -63,34 +58,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div ng-show="!enableMonthFilter" style="padding:30px 0 30px 0">
         <h1 style="font-size:150%"> Date Range Selection </h1>
         <p>From: </p>
-	  <input  type="date"  name="input" ng-model="startDate"
-	       placeholder="yyyy-MM-dd" />
-
+        <input type="date" name="input" ng-model="startDate" placeholder="yyyy-MM-dd" />
         <p>To: </p>
-	  <input type="date"  name="input" ng-model="endDate"
-	       placeholder="yyyy-MM-dd" />
+        <input type="date" name="input" ng-model="endDate" placeholder="yyyy-MM-dd" />
       </div>
       <div ng-show="showDateFilter" style="padding:30px 0 0 0">
-            <h1 style="font-size:150%"> Month Filter 
-  	      <div class="pull-right">
-                <input type="checkbox" ng-model="enableMonthFilter">
-	      </div>
-	    </h1>
-
-          <div class="checkbox" ng-repeat="m in monthRecords">
-            <label>
-               <input
-                   type="checkbox"
-                   value="{{m.month}}"
-		   ng-disabled="!enableMonthFilter"
-                   ng-checked="checkMonth(m.month)"
-                   ng-click="toggleMonthSelection(m.month)"
-                 >{{(m.month.getMonth()+1) + '/' + m.month.getFullYear()}}
-	       
-            </label>
-    	<div class="pull-right">{{m.count}}</div>
-	  
-          </div>	
+        <h1 style="font-size:150%"> Month Filter 
+        <div class="pull-right">
+          <input type="checkbox" ng-model="enableMonthFilter">
+        </div>
+      </h1>
+      <div class="checkbox" ng-repeat="m in monthRecords">
+        <label>
+          <input 
+              type="checkbox" 
+              value="{{m.month}}" 
+              ng-disabled="!enableMonthFilter" 
+              ng-checked="checkMonth(m.month)" 
+              ng-click="toggleMonthSelection(m.month)">
+          {{(m.month.getMonth()+1) + '/' + m.month.getFullYear()}}       
+        </label>
+        <div class="pull-right">{{m.count}}</div>
+      </div>  
         <br>
         <br>
       </div>
@@ -98,16 +87,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <h1 style="font-size:150%">Source Filter: </h1>
         <div class="checkbox" ng-repeat="s in sources">
           <label>
-             <input
-                 type="checkbox"
-                 value="{{s.name}}"
-                 ng-checked="sourceSelection.indexOf(s.name) > -1"
-                   ng-click="toggleSourceSelection(s.name)"
-               >{{s.name}}
-	       
+            <input
+                type="checkbox"
+                value="{{s.name}}"
+                ng-checked="sourceSelection.indexOf(s.name) > -1"
+                ng-click="toggleSourceSelection(s.name)">
+            {{s.name}}
           </label>
-  	<div class="pull-right">{{s.count}}</div>
-	  
+          <div class="pull-right">{{s.count}}</div>
         </div>
       </div>
     </div>

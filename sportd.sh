@@ -67,4 +67,9 @@ function sportd() {
 
   printf "${GREEN}Indexing data${NC}\n"
   docker exec sportnewsretrieval_solr-node_1 bin/post -c sport data/*.json
+
+  printf "${GREEN}If you get \"Connection error\" or \"Connection refuse\", please shout out the following numbers loudly:\n"
+  printf "1 2 3 4 5\n"
+  printf "and run the following command:\n"
+  printf "docker exec sportnewsretrieval_solr-node_1 bin/post -c sport data/*.json${NC}\n"
 }
