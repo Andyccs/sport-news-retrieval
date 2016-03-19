@@ -20,7 +20,6 @@ app.controller('newsCtrl', function($scope, $http) {
            //   $scope.movies = data;
            // })
     return ['a','b'];
-
   };
 
 
