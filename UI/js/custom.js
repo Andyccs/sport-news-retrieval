@@ -1,5 +1,5 @@
 
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['autocomplete']);
 var pageSize = 5;
 var currPage = 1;
 var keywords;
@@ -7,7 +7,21 @@ var keywords;
 
 
 app.controller('newsCtrl', function($scope, $http) {
+  $scope.items = ['Lord of the Rings',
+                       'Drive',
+                       'Science of Sleep',
+                       'Back to the Future',
+                       'Oldboy'];
 
+  $scope.update = function(typed) {
+           // // MovieRetriever could be some service returning a promise
+           // $scope.newmovies = MovieRetriever.getmovies(typed);
+           // $scope.newmovies.then(function(data){
+           //   $scope.movies = data;
+           // })
+    return ['a','b'];
+
+  };
 
 
 
