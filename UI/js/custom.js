@@ -7,79 +7,27 @@ var keywords;
 
 
 app.controller('newsCtrl', function($scope, $http) {
-//For auto-complete feature
-// $scope.isDisabled    = false;
-// // list of `state` value/display objects
-// $scope.states        = loadAll();
-// $scope.querySearch   = querySearch;
-// $scope.selectedItemChange = selectedItemChange;
-// $scope.searchTextChange   = searchTextChange;
-//
-// function querySearch (query) {
-//   var results = query ? $scope.states.filter( createFilterFor(query) ) : $scope.states;
-//
-//   return results;
-// }
-//
-// function searchTextChange(text) {
-//   $log.info('Text changed to ' + text);
-// }
-//
-// function selectedItemChange(item) {
-//   $log.info('Item changed to ' + JSON.stringify(item));
-// }
-//
-//    /**
-//     * Build `states` list of key/value pairs
-//     */
-// function loadAll() {
-//      var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-//              Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-//              Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-//              Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-//              North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-//              South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-//              Wisconsin, Wyoming';
-//
-//   return allStates.split(/, +/g).map( function (state) {
-//     return {
-//       value: state.toLowerCase(),
-//       display: state
-//     };
-//   });
-// }
-//
-//    /**
-//     * Create filter function for a query string
-//     */
-// function createFilterFor(query) {
-//   var lowercaseQuery = angular.lowercase(query);
-//
-//   return function filterFn(state) {
-//     return (state.value.indexOf(lowercaseQuery) === 0);
-//   };
-//
-// }
 
 
 
-	
+
+
   //Init the date range from 2 years ago until now
   $scope.endDate = new Date();
   $scope.startDate = new Date($scope.endDate.getTime() - 2 * 365 * 24 * 60 * 60 * 1000);
-	
+
   $scope.currPage = 0;
   $scope.pageCount = 0;
-  
+
   $scope.showDateFilter = false;
   $scope.showSourceFilter = false;
   $scope.enableMonthFilter = false;
-  
+
   $scope.sourceSelection = [];
   $scope.monthSelection = [];
 
-  $scope.toggleSourceSelection = function (source) {
-	  
+  $scope.toggleSourceSelection = function(source) {
+
     var idx = $scope.sourceSelection.indexOf(source);
 
     if (idx > -1) {
@@ -90,22 +38,22 @@ app.controller('newsCtrl', function($scope, $http) {
     makeRequest(false);
   };
 
-  $scope.checkMonth = function (month){
-    for(var i = 0;i < $scope.monthSelection.length;i++){
-      if($scope.monthSelection[i].getTime() == month.getTime()){
+  $scope.checkMonth = function(month) {
+    for (var i = 0;i < $scope.monthSelection.length;i++) {
+      if($scope.monthSelection[i].getTime() == month.getTime()) {
         return true;
       }
     }
     return false;
   };
-  
-  
-  $scope.toggleMonthSelection = function (month) {
-    	  
+
+
+  $scope.toggleMonthSelection = function(month) {
+
     var idx = -1;
-    
-    for(var i = 0;i < $scope.monthSelection.length;i++){
-      if($scope.monthSelection[i].getTime() == month.getTime()){
+
+    for(var i = 0;i < $scope.monthSelection.length;i++) {
+      if($scope.monthSelection[i].getTime() == month.getTime()) {
         idx = i;
         break;
       }
@@ -117,30 +65,31 @@ app.controller('newsCtrl', function($scope, $http) {
       $scope.monthSelection.push(month);
     }
     makeRequest(false);
-    
+
   };
-  
-  function makeMonthQuery(low,high){
-    var query = "";
-    query += "created_at:[";
+
+  function makeMonthQuery(low,high) {
+    var query = '';
+
+    query += 'created_at:[';
     query += low.toISOString();
-    query += " TO ";
-    query += high.toISOString() + "]";
-	
+    query += ' TO ';
+    query += high.toISOString() + ']';
+
     return query;
   }
-  
-  function makeSourceQuery(source){
-    var query = "";
-    query += "author:(\"";
+
+  function makeSourceQuery(source) {
+    var query = '';
+
+    query += 'author:("';
     query += encodeURIComponent(source);
-    query += "\")";
-	
+    query += '")';
     return query;
   }
-  
+
   function makeRequest(tickAll) {
-	  
+
     var start = (currPage - 1) * pageSize;
 
     //Be default, facet by author and months of previous year
@@ -154,78 +103,77 @@ app.controller('newsCtrl', function($scope, $http) {
         '&q=' + keywords +
         '&start=' + start +
         '&rows=' + pageSize +
-        '&wt=json' + 
-        '&facet.field=author'+
-        '&facet.date=created_at' + 
+        '&wt=json' +
+        '&facet.field=author' +
+        '&facet.date=created_at' +
         '&f.created_at.facet.date.start=NOW-12MONTH/MONTH' +
         '&f.created_at.facet.date.end=NOW%2B1MONTH/MONTH' +
         '&f.created_at.facet.date.gap=%2B1MONTH'
     ;
-    
-    var dateQuery = "(";
-    if($scope.enableMonthFilter){
-      if($scope.monthSelection.length == 0){
-        alert("Please at least check one month.");
-	return;
+
+    var dateQuery = '(';
+
+    if($scope.enableMonthFilter) {
+      if($scope.monthSelection.length == 0) {
+        alert('Please at least check one month.');
+        return;
       }
       var low = $scope.monthSelection[0];
       var high = new Date(low.getTime() + 2678400000);
-      
+
       dateQuery += makeMonthQuery(low,high);
-      
-      for(var i = 1;i < $scope.monthSelection.length;i++){
-	var low = $scope.monthSelection[i];
-	var high = new Date(low.getTime() + 2678400000);
-      
-        dateQuery += " OR " + makeMonthQuery(low,high);
-      }      	
+
+      for(var i = 1;i < $scope.monthSelection.length;i++) {
+        var low = $scope.monthSelection[i];
+        var high = new Date(low.getTime() + 2678400000);
+
+        dateQuery += ' OR ' + makeMonthQuery(low,high);
+      }
 
     }else{
-       var low = $scope.startDate;    
-       if (typeof low === 'undefined'){
-	  alert("Please enter the start date.");
-	  return;
-       }
-       var high = $scope.endDate;    
-       if (typeof high === 'undefined'){
-	  alert("Please enter the end date.");
-	  return;
-       }
-             
-        dateQuery += makeMonthQuery(low,high);    	
+      var low = $scope.startDate;
+
+      if (typeof low === 'undefined') {
+        alert('Please enter the start date.');
+        return;
+      }
+      var high = $scope.endDate;
+
+      if (typeof high === 'undefined') {
+        alert('Please enter the end date.');
+        return;
+      }
+
+      dateQuery += makeMonthQuery(low,high);
     }
-    dateQuery += ")";
-    
+    dateQuery += ')';
 
-//http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=…_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:07:29.154Z TO 2016-03-19T08:07:29.154Z]))
 
-//   http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=…_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:07:29.154Z TO 2016-03-19T08:07:29.154Z]) AND ))
-    
-    var sourceQuery = "(";
-    if($scope.sourceSelection.length != 0){
+    var sourceQuery = '(';
+
+    if($scope.sourceSelection.length != 0) {
       sourceQuery += makeSourceQuery($scope.sourceSelection[0]);
-      
-      for(var i = 1;i < $scope.sourceSelection.length;i++){
-        sourceQuery += " OR " + makeSourceQuery($scope.sourceSelection[i]);
-      }   
+
+      for(var i = 1;i < $scope.sourceSelection.length;i++) {
+        sourceQuery += ' OR ' + makeSourceQuery($scope.sourceSelection[i]);
+      }
     }
-    sourceQuery += ")";
-    if($scope.sourceSelection.length != 0){
-      component += "&fq=cat:(";
-      component += dateQuery;    
-      component += " AND ";
-      component += sourceQuery;
-      component += ")" 
-    }else{
-      component += "&fq=cat:(";
+    sourceQuery += ')';
+    if($scope.sourceSelection.length != 0) {
+      component += '&fq=cat:(';
       component += dateQuery;
-      component += ")" 
+      component += ' AND ';
+      component += sourceQuery;
+      component += ')' ;
+    }else{
+      component += '&fq=cat:(';
+      component += dateQuery;
+      component += ')';
     }
 
-//http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=0&rows=5&wt=json&facet.field=author&facet.date=created_at&f.created_at.facet.date.start=NOW-12MONTH/MONTH&f.created_at.facet.date.end=NOW%2B1MONTH/MONTH&f.created_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:34:22.776Z TO 2016-03-19T08:34:22.776Z]) AND (author:(NBA%20Central)))
 
-    
     var url = domain + component;
+
     $http.jsonp(url).success(function(data) {
       $scope.currPage = currPage ;
       $scope.pageCount = Math.ceil(data.response.numFound / pageSize) ;
@@ -253,55 +201,52 @@ app.controller('newsCtrl', function($scope, $http) {
         comment += '?';
       }
       $scope.comment = comment;
-       
       var monthRecords = [];
-      
       var month;
       var monthCount = 0;
+
       for (var key in data.facet_counts.facet_dates.created_at) {
-	      
-	if(monthCount == 12) break;
-	monthCount = monthCount + 1;
-	var date = new Date(key);
-	count = data.facet_counts.facet_dates.created_at[key];
-        var monthRecord = new Object();
-	monthRecord.month = date;
-	monthRecord.count = count;
-	monthRecords.push(monthRecord);
+        if (monthCount == 12) {break;};
+        monthCount = monthCount + 1;
+        var date = new Date(key);
+
+        count = data.facet_counts.facet_dates.created_at[key];
+        var monthRecord = {};
+
+        monthRecord.month = date;
+        monthRecord.count = count;
+        monthRecords.push(monthRecord);
       }
       $scope.showDateFilter = true;
       $scope.monthRecords = monthRecords ;
-      
-       
+
       var sources = [];
-      
       var author;
       var count = 0;
-      var source = new Object();
-      
+      var source = {};
+
       for (i = 0; i < data.facet_counts.facet_fields.author.length; i++) {
-	      
-	if(i % 2 == 0){
-	  author = data.facet_counts.facet_fields.author[i];
-	  source.name = author;
-	  
-	}else{
-	  count = data.facet_counts.facet_fields.author[i];
-	  source.count = count;
-	  sources.push(source);
-	  source = new Object();
-	}
+
+        if(i % 2 == 0) {
+          author = data.facet_counts.facet_fields.author[i];
+          source.name = author;
+        }else{
+          count = data.facet_counts.facet_fields.author[i];
+          source.count = count;
+          sources.push(source);
+          source = {};
+        }
       }
       $scope.showSourceFilter = true;
       $scope.sources = sources ;
-      
-      if(tickAll){
+
+      if(tickAll) {
         $scope.sourceSelection = [];
-        for(var i = 0;i < $scope.sources.length;i++){
+        for(var i = 0;i < $scope.sources.length;i++) {
           $scope.sourceSelection.push($scope.sources[i].name);
         }
         $scope.monthSelection = [];
-        for(var i = 0;i < $scope.monthRecords.length;i++){
+        for(var i = 0;i < $scope.monthRecords.length;i++) {
           $scope.monthSelection.push($scope.monthRecords[i].month);
         }
       }
@@ -342,7 +287,7 @@ app.controller('newsCtrl', function($scope, $http) {
     keywords = $scope.keywords;
 
     makeRequest(true);
- 
+
   };
 
   $scope.crawl = function() {
