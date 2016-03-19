@@ -118,7 +118,7 @@ app.controller('newsCtrl', function($scope, $http) {
 	monthRecord.month = date;
 	monthRecord.count = count;
 	monthRecords.push(monthRecord);
-
+	$scope.monthSelection.push(date);
       }
       $scope.showDateFilter = true;
       $scope.monthRecords = monthRecords ;
@@ -134,6 +134,8 @@ app.controller('newsCtrl', function($scope, $http) {
 	if(i % 2 == 0){
 	  author = data.facet_counts.facet_fields.author[i];
 	  source.name = author;
+  	  $scope.sourceSelection.push(author);
+	  
 	}else{
 	  count = data.facet_counts.facet_fields.author[i];
 	  source.count = count;
