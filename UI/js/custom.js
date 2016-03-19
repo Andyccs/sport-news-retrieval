@@ -7,6 +7,11 @@ var keywords;
 
 
 app.controller('newsCtrl', function($scope, $http) {
+	
+  //Init the date range from 2 years ago until now
+  $scope.endDate = new Date();
+  $scope.startDate = new Date($scope.endDate.getTime() - 2 * 365 * 24 * 60 * 60 * 1000);
+	
   $scope.currPage = 0;
   $scope.pageCount = 0;
   
@@ -26,7 +31,7 @@ app.controller('newsCtrl', function($scope, $http) {
     }else {
       $scope.sourceSelection.push(source);
     }
-    makeRequest();
+    makeRequest(false);
   };
 
   $scope.checkMonth = function (month){
@@ -40,18 +45,46 @@ app.controller('newsCtrl', function($scope, $http) {
   
   
   $scope.toggleMonthSelection = function (month) {
-	  
-    var idx = $scope.monthSelection.indexOf(month);
+    	  
+    var idx = -1;
+    
+    for(var i = 0;i < $scope.monthSelection.length;i++){
+      if($scope.monthSelection[i].getTime() == month.getTime()){
+        idx = i;
+        break;
+      }
+    }
 
     if (idx > -1) {
       $scope.monthSelection.splice(idx, 1);
     }else {
       $scope.monthSelection.push(month);
     }
-    makeRequest(); 
+    makeRequest(false);
+    
   };
   
-  function makeRequest() {
+  function makeMonthQuery(low,high){
+    var query = "";
+    query += "created_at:[";
+    query += low.toISOString();
+    query += " TO ";
+    query += high.toISOString() + "]";
+	
+    return query;
+  }
+  
+  function makeSourceQuery(source){
+    var query = "";
+    query += "author:(\"";
+    query += encodeURIComponent(source);
+    query += "\")";
+	
+    return query;
+  }
+  
+  function makeRequest(tickAll) {
+	  
     var start = (currPage - 1) * pageSize;
 
     //Be default, facet by author and months of previous year
@@ -73,8 +106,70 @@ app.controller('newsCtrl', function($scope, $http) {
         '&f.created_at.facet.date.gap=%2B1MONTH'
     ;
     
-    var url = domain + component;
+    var dateQuery = "(";
+    if($scope.enableMonthFilter){
+      if($scope.monthSelection.length == 0){
+        alert("Please at least check one month.");
+	return;
+      }
+      var low = $scope.monthSelection[0];
+      var high = new Date(low.getTime() + 2678400000);
+      
+      dateQuery += makeMonthQuery(low,high);
+      
+      for(var i = 1;i < $scope.monthSelection.length;i++){
+	var low = $scope.monthSelection[i];
+	var high = new Date(low.getTime() + 2678400000);
+      
+        dateQuery += " OR " + makeMonthQuery(low,high);
+      }      	
+
+    }else{
+       var low = $scope.startDate;    
+       if (typeof low === 'undefined'){
+	  alert("Please enter the start date.");
+	  return;
+       }
+       var high = $scope.endDate;    
+       if (typeof high === 'undefined'){
+	  alert("Please enter the end date.");
+	  return;
+       }
+             
+        dateQuery += makeMonthQuery(low,high);    	
+    }
+    dateQuery += ")";
     
+
+//http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=…_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:07:29.154Z TO 2016-03-19T08:07:29.154Z]))
+
+//   http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=…_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:07:29.154Z TO 2016-03-19T08:07:29.154Z]) AND ))
+    
+    var sourceQuery = "(";
+    if($scope.sourceSelection.length != 0){
+      sourceQuery += makeSourceQuery($scope.sourceSelection[0]);
+      
+      for(var i = 1;i < $scope.sourceSelection.length;i++){
+        sourceQuery += " OR " + makeSourceQuery($scope.sourceSelection[i]);
+      }   
+    }
+    sourceQuery += ")";
+    if($scope.sourceSelection.length != 0){
+      component += "&fq=cat:(";
+      component += dateQuery;    
+      component += " AND ";
+      component += sourceQuery;
+      component += ")" 
+    }else{
+      component += "&fq=cat:(";
+      component += dateQuery;
+      component += ")" 
+    }
+
+//http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&q=nba&start=0&rows=5&wt=json&facet.field=author&facet.date=created_at&f.created_at.facet.date.start=NOW-12MONTH/MONTH&f.created_at.facet.date.end=NOW%2B1MONTH/MONTH&f.created_at.facet.date.gap=%2B1MONTH&fq=cat:((created_at:[2014-03-20T08:34:22.776Z TO 2016-03-19T08:34:22.776Z]) AND (author:(NBA%20Central)))
+
+    
+    var url = domain + component;
     $http.jsonp(url).success(function(data) {
       $scope.currPage = currPage ;
       $scope.pageCount = Math.ceil(data.response.numFound / pageSize) ;
@@ -107,7 +202,6 @@ app.controller('newsCtrl', function($scope, $http) {
       
       var month;
       var monthCount = 0;
-      
       for (var key in data.facet_counts.facet_dates.created_at) {
 	      
 	if(monthCount == 12) break;
@@ -118,7 +212,6 @@ app.controller('newsCtrl', function($scope, $http) {
 	monthRecord.month = date;
 	monthRecord.count = count;
 	monthRecords.push(monthRecord);
-	$scope.monthSelection.push(date);
       }
       $scope.showDateFilter = true;
       $scope.monthRecords = monthRecords ;
@@ -129,12 +222,12 @@ app.controller('newsCtrl', function($scope, $http) {
       var author;
       var count = 0;
       var source = new Object();
+      
       for (i = 0; i < data.facet_counts.facet_fields.author.length; i++) {
 	      
 	if(i % 2 == 0){
 	  author = data.facet_counts.facet_fields.author[i];
 	  source.name = author;
-  	  $scope.sourceSelection.push(author);
 	  
 	}else{
 	  count = data.facet_counts.facet_fields.author[i];
@@ -145,6 +238,17 @@ app.controller('newsCtrl', function($scope, $http) {
       }
       $scope.showSourceFilter = true;
       $scope.sources = sources ;
+      
+      if(tickAll){
+        $scope.sourceSelection = [];
+        for(var i = 0;i < $scope.sources.length;i++){
+          $scope.sourceSelection.push($scope.sources[i].name);
+        }
+        $scope.monthSelection = [];
+        for(var i = 0;i < $scope.monthRecords.length;i++){
+          $scope.monthSelection.push($scope.monthRecords[i].month);
+        }
+      }
     });
 
   }
@@ -158,7 +262,7 @@ app.controller('newsCtrl', function($scope, $http) {
       $scope.preDisabled = true;
     }
 
-    makeRequest();
+    makeRequest(false);
   };
 
   $scope.next = function() {
@@ -169,9 +273,7 @@ app.controller('newsCtrl', function($scope, $http) {
       $scope.nextDisabled = true;
     }
 
-    var url = constructURL();
-
-    makeRequest();
+    makeRequest(false);
 
   };
 
@@ -183,17 +285,8 @@ app.controller('newsCtrl', function($scope, $http) {
 
     keywords = $scope.keywords;
 
-    //Get the date interval
-    //A string of yyyy-mm-dd
-    //alert($scope.startDate);
-
-    //Get a list of selected sources
-    //alert($scope.selection);
-
-    //Later, add these fields to http requests
-    //Also modify the request when clicking the previous and next button
-
-    makeRequest();
+    makeRequest(true);
+ 
   };
 
   $scope.crawl = function() {
