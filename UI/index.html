@@ -54,19 +54,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <h1 style="font-size:150%">{{queryTime}} </h1>
 
       <br>
-      <div style="padding:30px 0 30px 0">
+      <div ng-show="!enableMonthFilter" style="padding:30px 0 30px 0">
         <h1 style="font-size:150%"> Date Range Selection </h1>
-        <!-- <h1>From: </h1>
-	<input type="date"  name="input" ng-model="startDate"
+        <p>From: </p>
+	  <input  type="date"  name="input" ng-model="startDate"
 	       placeholder="yyyy-MM-dd" />
-        <h1>To: </h1>
-	<input type="date"  name="input" ng-model="endDate"
-	       placeholder="yyyy-MM-dd" /> -->
+	
+	
+        <p>To: </p>
+	  <input type="date"  name="input" ng-model="endDate"
+	       placeholder="yyyy-MM-dd" />
+      </div>
+      <div ng-show="showDateFilter" style="padding:30px 0 0 0">
+            <h1 style="font-size:150%"> Month Filter 
+  	      <div class="pull-right">
+                <input type="checkbox" ng-model="enableMonthFilter">
+	      </div>
+	    </h1>
+
           <div class="checkbox" ng-repeat="m in monthRecords">
             <label>
                <input
                    type="checkbox"
                    value="{{m.month}}"
+		   ng-disabled="!enableMonthFilter"
                    ng-checked="selection.indexOf(s.month) > -1"
                    ng-click="toggleSelection(s.month)"
                  >{{(m.month.getMonth()+1) + '/' + m.month.getFullYear()}}
@@ -78,7 +89,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <br>
         <br>
       </div>
-      <div id="filter" style="padding:30px 0 30px 0">
+      <div ng-show="showSourceFilter" id="filter" style="padding:30px 0 0 0">
         <h1 style="font-size:150%">Source Filter: </h1>
         <div class="checkbox" ng-repeat="s in sources">
           <label>

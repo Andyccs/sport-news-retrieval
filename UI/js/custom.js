@@ -10,7 +10,10 @@ app.controller('newsCtrl', function($scope, $http) {
   $scope.currPage = 0;
   $scope.pageCount = 0;
   $scope.selection = [];
-
+  
+  $scope.showDateFilter = false;
+  $scope.showSourceFilter = false;
+  $scope.enableMonthFilter = false;
     // toggle selection for a given fruit by name
   $scope.toggleSelection = function toggleSelection(source) {
     var idx = $scope.selection.indexOf(source);
@@ -145,11 +148,9 @@ app.controller('newsCtrl', function($scope, $http) {
       var monthCount = 0;
       
       for (var key in data.facet_counts.facet_dates.created_at) {
-	console.log(key);
 	      
 	if(monthCount == 12) break;
 	monthCount = monthCount + 1;
-	
 	var date = new Date(key);
 	count = data.facet_counts.facet_dates.created_at[key];
         var monthRecord = new Object();
@@ -158,7 +159,7 @@ app.controller('newsCtrl', function($scope, $http) {
 	monthRecords.push(monthRecord);
 
       }
-      console.log(monthRecords);
+      $scope.showDateFilter = true;
       $scope.monthRecords = monthRecords ;
       
        
@@ -179,6 +180,7 @@ app.controller('newsCtrl', function($scope, $http) {
 	  source = new Object();
 	}
       }
+      $scope.showSourceFilter = true;
       $scope.sources = sources ;
     });
   };
