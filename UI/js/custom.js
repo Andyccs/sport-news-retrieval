@@ -138,9 +138,47 @@ app.controller('newsCtrl', function($scope, $http) {
         comment += '?';
       }
       $scope.comment = comment;
+       
+      var monthRecords = [];
+      
+      var month;
+      var monthCount = 0;
+      
+      for (var key in data.facet_counts.facet_dates.created_at) {
+	console.log(key);
+	      
+	if(monthCount == 12) break;
+	monthCount = monthCount + 1;
+	
+	var date = new Date(key);
+	count = data.facet_counts.facet_dates.created_at[key];
+        var monthRecord = new Object();
+	monthRecord.month = date;
+	monthRecord.count = count;
+	monthRecords.push(monthRecord);
 
-      var sources = data.;
-
+      }
+      console.log(monthRecords);
+      $scope.monthRecords = monthRecords ;
+      
+       
+      var sources = [];
+      
+      var author;
+      var count = 0;
+      var source = new Object();
+      for (i = 0; i < data.facet_counts.facet_fields.author.length; i++) {
+	      
+	if(i % 2 == 0){
+	  author = data.facet_counts.facet_fields.author[i];
+	  source.name = author;
+	}else{
+	  count = data.facet_counts.facet_fields.author[i];
+	  source.count = count;
+	  sources.push(source);
+	  source = new Object();
+	}
+      }
       $scope.sources = sources ;
     });
   };
