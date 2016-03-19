@@ -78,7 +78,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                    type="checkbox"
                    value="{{m.month}}"
 		   ng-disabled="!enableMonthFilter"
-                   ng-checked="monthSelection.indexOf(m.month) > -1"
+                   ng-checked="checkMonth(m.month)"
                    ng-click="toggleMonthSelection(m.month)"
                  >{{(m.month.getMonth()+1) + '/' + m.month.getFullYear()}}
 	       

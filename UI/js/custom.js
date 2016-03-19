@@ -26,8 +26,19 @@ app.controller('newsCtrl', function($scope, $http) {
     }else {
       $scope.sourceSelection.push(source);
     }
+    makeRequest();
   };
 
+  $scope.checkMonth = function (month){
+    for(var i = 0;i < $scope.monthSelection.length;i++){
+      if($scope.monthSelection[i].getTime() == month.getTime()){
+        return true;
+      }
+    }
+    return false;
+  };
+  
+  
   $scope.toggleMonthSelection = function (month) {
 	  
     var idx = $scope.monthSelection.indexOf(month);
@@ -37,10 +48,10 @@ app.controller('newsCtrl', function($scope, $http) {
     }else {
       $scope.monthSelection.push(month);
     }
-    
+    makeRequest(); 
   };
   
-  function constructURL() {
+  function makeRequest() {
     var start = (currPage - 1) * pageSize;
 
     //Be default, facet by author and months of previous year
@@ -49,7 +60,7 @@ app.controller('newsCtrl', function($scope, $http) {
     // deployment scenario, Solr will never live in localhost, but it will live in another server /
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
-    var url = 'http://localhost:8983/solr/sport/select?';
+    var domain = 'http://localhost:8983/solr/sport/select?';
     var component = 'json.wrf=JSON_CALLBACK' +
         '&q=' + keywords +
         '&start=' + start +
@@ -61,74 +72,9 @@ app.controller('newsCtrl', function($scope, $http) {
         '&f.created_at.facet.date.end=NOW%2B1MONTH/MONTH' +
         '&f.created_at.facet.date.gap=%2B1MONTH'
     ;
-
-    return url + component;
-  }
-  $scope.comment = 'Popular searches: Warriors, Curry for Three';
-
-  $scope.pre = function() {
-    currPage = currPage - 1;
-    $scope.currPage = currPage;
-    $scope.nextDisabled = false;
-    if (currPage == 1) {
-      $scope.preDisabled = true;
-    }
-
-    var url = constructURL();
-
-    $http.jsonp(url).success(function(data) {
-      $scope.currPage = currPage ;
-      $scope.news = data.response.docs ;
-
-      var queryTime = data.responseHeader.QTime;
-
-      $scope.queryTime = 'The query takes ' + queryTime + ' milliseconds. ';
-
-      $scope.$digest();
-    });
-  };
-
-  $scope.next = function() {
-    currPage = currPage + 1;
-    $scope.currPage = currPage;
-    $scope.preDisabled = false;
-    if (currPage == 1) {
-      $scope.nextDisabled = true;
-    }
-
-    var url = constructURL();
-
-    $http.jsonp(url).success(function(data) {
-      $scope.currPage = currPage ;
-      $scope.news = data.response.docs ;
-
-      var queryTime = data.responseHeader.QTime;
-
-      $scope.queryTime = 'The query takes ' + queryTime + ' milliseconds. ';
-
-      $scope.$digest();
-    });
-  };
-
-
-  $scope.search = function() {
-    $scope.preDisabled = true;
-    $scope.nextDisabled = true;
-    currPage = 1;
-
-    keywords = $scope.keywords;
-
-    //Get the date interval
-    //A string of yyyy-mm-dd
-    //alert($scope.startDate);
-
-    //Get a list of selected sources
-    //alert($scope.selection);
-
-    //Later, add these fields to http requests
-    //Also modify the request when clicking the previous and next button
-
-    var url = constructURL(keywords);
+    
+    var url = domain + component;
+    
     $http.jsonp(url).success(function(data) {
       $scope.currPage = currPage ;
       $scope.pageCount = Math.ceil(data.response.numFound / pageSize) ;
@@ -198,6 +144,54 @@ app.controller('newsCtrl', function($scope, $http) {
       $scope.showSourceFilter = true;
       $scope.sources = sources ;
     });
+
+  }
+  $scope.comment = 'Popular searches: Warriors, Curry for Three';
+
+  $scope.pre = function() {
+    currPage = currPage - 1;
+    $scope.currPage = currPage;
+    $scope.nextDisabled = false;
+    if (currPage == 1) {
+      $scope.preDisabled = true;
+    }
+
+    makeRequest();
+  };
+
+  $scope.next = function() {
+    currPage = currPage + 1;
+    $scope.currPage = currPage;
+    $scope.preDisabled = false;
+    if (currPage == 1) {
+      $scope.nextDisabled = true;
+    }
+
+    var url = constructURL();
+
+    makeRequest();
+
+  };
+
+
+  $scope.search = function() {
+    $scope.preDisabled = true;
+    $scope.nextDisabled = true;
+    currPage = 1;
+
+    keywords = $scope.keywords;
+
+    //Get the date interval
+    //A string of yyyy-mm-dd
+    //alert($scope.startDate);
+
+    //Get a list of selected sources
+    //alert($scope.selection);
+
+    //Later, add these fields to http requests
+    //Also modify the request when clicking the previous and next button
+
+    makeRequest();
   };
 
   $scope.crawl = function() {
