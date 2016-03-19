@@ -25,17 +25,26 @@ app.controller('newsCtrl', function($scope, $http) {
   function constructURL() {
     var start = (currPage - 1) * pageSize;
 
+    //Be default, facet by author and months of previous year
+
     // You may prefix this with http://localhost:8983 but please do not check that in. In real
     // deployment scenario, Solr will never live in localhost, but it will live in another server /
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
-    var url = 'http://localhost:8983/solr/sport/select?json.wrf=JSON_CALLBACK&' +
-        'q=' + keywords +
+    var url = 'http://localhost:8983/solr/sport/select?';
+    var component = 'json.wrf=JSON_CALLBACK' +
+        '&q=' + keywords +
         '&start=' + start +
         '&rows=' + pageSize +
-        '&wt=json';
+        '&wt=json' + 
+        '&facet.field=author'+
+        '&facet.date=created_at' + 
+        '&f.created_at.facet.date.start=NOW-12MONTH/MONTH' +
+        '&f.created_at.facet.date.end=NOW%2B1MONTH/MONTH' +
+        '&f.created_at.facet.date.gap=%2B1MONTH'
+    ;
 
-    return url;
+    return url + component;
   }
   $scope.comment = 'Popular searches: Warriors, Curry for Three';
 
@@ -102,7 +111,6 @@ app.controller('newsCtrl', function($scope, $http) {
     //Also modify the request when clicking the previous and next button
 
     var url = constructURL(keywords);
-
     $http.jsonp(url).success(function(data) {
       $scope.currPage = currPage ;
       $scope.pageCount = Math.ceil(data.response.numFound / pageSize) ;
@@ -131,7 +139,7 @@ app.controller('newsCtrl', function($scope, $http) {
       }
       $scope.comment = comment;
 
-      var sources = ['ESPN','NBACentral'];
+      var sources = data.;
 
       $scope.sources = sources ;
     });
