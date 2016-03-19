@@ -9,22 +9,37 @@ var keywords;
 app.controller('newsCtrl', function($scope, $http) {
   $scope.currPage = 0;
   $scope.pageCount = 0;
-  $scope.selection = [];
   
   $scope.showDateFilter = false;
   $scope.showSourceFilter = false;
   $scope.enableMonthFilter = false;
-    // toggle selection for a given fruit by name
-  $scope.toggleSelection = function toggleSelection(source) {
-    var idx = $scope.selection.indexOf(source);
+  
+  $scope.sourceSelection = [];
+  $scope.monthSelection = [];
+
+  $scope.toggleSourceSelection = function (source) {
+	  
+    var idx = $scope.sourceSelection.indexOf(source);
 
     if (idx > -1) {
-      $scope.selection.splice(idx, 1);
+      $scope.sourceSelection.splice(idx, 1);
     }else {
-      $scope.selection.push(source);
+      $scope.sourceSelection.push(source);
     }
   };
 
+  $scope.toggleMonthSelection = function (month) {
+	  
+    var idx = $scope.monthSelection.indexOf(month);
+
+    if (idx > -1) {
+      $scope.monthSelection.splice(idx, 1);
+    }else {
+      $scope.monthSelection.push(month);
+    }
+    
+  };
+  
   function constructURL() {
     var start = (currPage - 1) * pageSize;
 

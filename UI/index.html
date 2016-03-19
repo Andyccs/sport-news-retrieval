@@ -78,8 +78,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                    type="checkbox"
                    value="{{m.month}}"
 		   ng-disabled="!enableMonthFilter"
-                   ng-checked="selection.indexOf(s.month) > -1"
-                   ng-click="toggleSelection(s.month)"
+                   ng-checked="monthSelection.indexOf(m.month) > -1"
+                   ng-click="toggleMonthSelection(m.month)"
                  >{{(m.month.getMonth()+1) + '/' + m.month.getFullYear()}}
 	       
             </label>
@@ -96,8 +96,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
              <input
                  type="checkbox"
                  value="{{s.name}}"
-                 ng-checked="selection.indexOf(s.name) > -1"
-                 ng-click="toggleSelection(s.name)"
+                 ng-checked="sourceSelection.indexOf(s.name) > -1"
+                   ng-click="toggleSourceSelection(s.name)"
                >{{s.name}}
 	       
           </label>
