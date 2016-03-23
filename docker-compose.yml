@@ -15,7 +15,7 @@ solr-node:
   ports:
   - "8983:8983"
   volumes:
-  - ./data/:/opt/solr/data/:rw
+  - ./index/solr/sport/conf/:/tmp/solr/sport/conf/:rw
 recrawler-node:
   build: .
   dockerfile: recrawler/Dockerfile
