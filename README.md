@@ -2,15 +2,13 @@
 
 CZ4034 Information Retrieval Assignment
 
-## Setting up
+## Crawler
 
-First, we install all requirements for this project by using the following command:
+First, we install all requirements for crawler by using the following command:
 
 ```Shell
-$ pip install -r requirements.txt
+$ pip install -r crawler/requirements.txt
 ```
-
-## Crawler
 
 The crawler will crawl [ESPN](https://twitter.com/espn?lang=en) and [TheNBACentral](https://twitter.com/TheNBACentral?lang=en) twitter timeline. To use this crawler, we first need to obtain an API key from [Twitter Application Management](https://apps.twitter.com) website. Next, create a file `tweeter_key.py` in `crawler` folder. This file will not be checked in to Git. 
 
@@ -31,6 +29,12 @@ $ python crawler/news_crawler.py
 Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created at the `data` directory of this project.
 
 ## Recrawler
+
+First, we install all requirements for recrawler by using the following command:
+
+```Shell
+$ pip install -r recrawler/requirements.txt
+```
 
 The recrawler is a Django server and rely on the crawler to do the recrawling task for incremental index. When user submits a request to the server, it will perform an asynchronous task to crawl the tweets and send an update request to Solr server. To run the recrawler server, we first need to setup the crawler, as mentioned in previous section. Then, we run the following commands:
 
@@ -53,22 +57,94 @@ $ post -c sport TheNBACentral_data.json
 ```
 ## Classifier
 
-The classifier will call the API from [text-processing.com](text-processing.com/api). We run the classifier by using the following command:
+First, we install all requirements for crawler by using the following command:
+
+```Shell
+$ pip install -r classifier/requirements.txt
+```
+
+You need to run the crawler at least once, and make sure that `espn_data.json` file is available in data folder. The pipeline of our classifier is shown in the figure below
+
+```
+espn_data.json --> classify.py --> preprocess.py --> some classifier --> evaluation_metrics.py
+```
+
+We will first call the API from [text-processing.com](text-processing.com/api) to label our raw data. The following script will call the API, an output a json file `espn_data_result.json` in `data` folder. `espn_data_result.json` contains probabilities and labels for data. The API only allows 1 request per seconds, so you might want to grab a coffee while waiting.
 
 ```Shell
 $ python classifier/classify.py
+
+# Example content of espn_data_result.json
+# [{
+#   "probability": {
+#     "neg": 0.4768910438883407,
+#     "neutral": 0.8121072206192833,
+#     "pos": 0.5231089561116593
+#   },
+#   "label": "neutral"
+# }]
 ```
 
-Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the 'data' directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
+Next, we need to run the preprocessing step. The preprocessing step will do the following in sequence:
 
-Next, run main.py. It does preprocessing to the data crawled. And runs 2 classifiers next.  
+1. Lower case
+2. remove html
+3. remove stopwords
+
+Then, it will output the preprocessed data to `labelled_tweets.csv`. We can run the preprocess step by using the following script:
+
+```Shell
+$ python classifier/preprocess.py
+
+# Example content of labelled_tweets.csv
+# "buzzer-beating 3 win crucial bubble game make gary payton happy? #pac12afterdark never disappoints. https://t.co/hh0omzffa8","diaz: you're steroids mcgregor: sure am. i'm animal. icymi: #ufc196 presser went expected. https://t.co/jqb72ohv4g"
+```
+
+**The preprocess.py will also do a fake inter-annotator agreement calculation. Specifically, it will slightly change the labels espn_data_result.json to calculate kappa. This is cheating.**
+
+After preprocessing step, we will run train some classifiers and evaluate the classifier. Currently, we have three classifier, i.e. linear support vector classification, gensim classifier, and ensemble classifier. By default, the following scriptsw ill use `evaluation_metrics.py` to generate evalutation metrics. 
+
+```Shell
+# linear support vector classification
+# output:
+# - data/log_reg_result.csv
+# - figure/tfid_linsvc_classifier
+# - metric_result/tfid_linsvc_classifier.txt
+# - model/linear_svc.pkl*
+$ python classifier/linear_svc.py
+
+# gensim classifier
+# output:
+# - data/word2vec_linsvc_result.csv
+# - figure/gensim_classifier
+# - metric_result/gensim_classifier.txt
+# - model/word2vec_model.doc2vec
+$ python classifier/gensim_classifier.py
+
+# ensemble classifier
+# output:
+# - data/ensemble_ada_result.csv
+# - metric/ensemble_ada.txt
+# - model/ensemble_ada_classifier.pickle
+$ python classifier/ensemble_classifier.py 
+```
+
+### Check Model Time
+
+TODO(kklw)
+
+```Shell
+# output: metric_result/timings.txt
+$ python classifier/check_model_time.py
+```
+
+### Run all commands in one script
+
+To run all the above commands:
+
 ```Shell
 $ python classifier/main.py
 ```
-The figure folder contains the graphs of the precision recall curve. The model folder contains the trained classifier. 
-
-### Inter annotator agreement
-The preprocessing.py class calls the nltk [annotation task][https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py].
 
 ## UI Client
 
@@ -76,8 +152,6 @@ We have a simple user interface that use Solr server to retrieve sport news. Cur
 
 - A button to trigger the crawling in the backend
 - A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
-
-*Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend. TODO(RUAN0007): we need a backend server to accomplish recrawling task*
 
 To install all components for this website, we first need to install bower using [node package manager](https://www.npmjs.com/):
 
