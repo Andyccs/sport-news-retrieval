@@ -84,10 +84,3 @@ node_modules/
 
 # SQLite 3
 *.sqlite3
-
-
-# generated folders
-data/
-figure/
-metric_result/
-model/
