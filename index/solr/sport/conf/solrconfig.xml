@@ -437,8 +437,26 @@
        <int name="rows">10</int>
        <str name="facet">on</str>
      </lst>
+  </requestHandler>
 
-    </requestHandler>
+  <!-- A request handler that returns auto complete suggestions -->
+  <requestHandler name="/suggest" class="solr.SearchHandler">
+    <!-- default values for query parameters can be specified, these
+         will be overridden by parameters in the request
+      -->
+     <lst name="defaults">
+       <str name="spellcheck">true</str>
+       <str name="spellcheck.build">true</str>
+       <str name="spellcheck.onlyMorePopular">true</str>
+       <str name="spellcheck.dictionary">suggest</str>
+       <str name="spellcheck.count">5</str>
+       <str name="spellcheck.collate">true</str>
+       <str name="spellcheck.maxCollations">5</str>
+     </lst>
+     <arr name="components">
+       <str>suggest</str>
+     </arr>
+     </requestHandler>
 
   <!-- A request handler that returns indented JSON by default -->
   <requestHandler name="/query" class="solr.SearchHandler">
@@ -558,6 +576,30 @@
 
   <!-- Facet Component -->
   <searchComponent name="facet" class="solr.FacetComponent" />
+
+  <!-- Auto Complete Component -->
+  <searchComponent name="suggest" class="solr.SpellCheckComponent">
+  <lst name="spellchecker">
+    <str name="name">suggest</str>
+    <str name="classname">org.apache.solr.spelling.suggest.Suggester</str>
+
+  <!-- Define the Lookup class to use -->
+    <str name="lookupImpl">org.apache.solr.spelling.suggest.jaspell.JaspellLookupFactory</str>
+      <!-- Alternatives to lookupImpl: 
+       org.apache.solr.spelling.suggest.fst.FSTLookupFactory   [finite state automaton]
+       org.apache.solr.spelling.suggest.fst.WFSTLookupFactory [weighted finite state automaton]
+       org.apache.solr.spelling.suggest.jaspell.JaspellLookupFactory [default, jaspell-based]
+       org.apache.solr.spelling.suggest.tst.TSTLookupFactory   [ternary trees]
+      -->
+
+  <!-- Field-based dictionary -->
+  <str name="field">text</str>
+
+  <!-- Settings for field-based dictionary -->
+  <float name="threshold">0.005</float>
+  <str name="buildOnCommit">true</str>
+  </lst>
+  </searchComponent> 
 
   <!-- Terms Component
 
