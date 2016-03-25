@@ -136,9 +136,6 @@ To run all the above commands:
 $ python classifier/main.py
 ```
 
-### Inter annotator agreement
-The preprocessing.py class calls the nltk [annotation task][https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py].
-
 ## UI Client
 
 We have a simple user interface that use Solr server to retrieve sport news. Current UI version has two functions:
