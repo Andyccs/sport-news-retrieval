@@ -119,7 +119,7 @@ $ python classifier/gensim_classifier.py
 $ python classifier/ensemble_classifier.py 
 ```
 
-## Check Model Time
+### Check Model Time
 
 TODO(kklw)
 
@@ -128,7 +128,7 @@ TODO(kklw)
 $ python classifier/check_model_time.py
 ```
 
-## Run all commands in one script
+### Run all commands in one script
 
 To run all the above commands:
 
