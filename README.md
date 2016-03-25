@@ -153,8 +153,6 @@ We have a simple user interface that use Solr server to retrieve sport news. Cur
 - A button to trigger the crawling in the backend
 - A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
 
-*Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend. TODO(RUAN0007): we need a backend server to accomplish recrawling task*
-
 To install all components for this website, we first need to install bower using [node package manager](https://www.npmjs.com/):
 
 ```Shell
