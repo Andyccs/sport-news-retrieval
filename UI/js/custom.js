@@ -7,19 +7,26 @@ var keywords;
 
 
 app.controller('newsCtrl', function($scope, $http) {
-  $scope.items = ['Lord of the Rings',
-                       'Drive',
-                       'Science of Sleep',
-                       'Back to the Future',
-                       'Oldboy'];
 
   $scope.update = function(typed) {
-           // // MovieRetriever could be some service returning a promise
-           // $scope.newmovies = MovieRetriever.getmovies(typed);
-           // $scope.newmovies.then(function(data){
-           //   $scope.movies = data;
-           // })
-    return ['a','b'];
+    var url = 'http://localhost:8983/solr/sport/suggest?';
+    var component = 'json.wrf=JSON_CALLBACK';
+
+    component += '&wt=json';
+    component += '&spellcheck.q=' + encodeURIComponent(typed);
+
+    $http.jsonp(url + component).success(function(data) {
+      var items = [];
+
+      for(var i = 0;i < data.spellcheck.collations.length;i++) {
+        if(i % 2 == 0) {
+          continue;
+        }
+        items.push(data.spellcheck.collations[i]);
+      }
+      $scope.items = items;
+    });
+
   };
 
 
@@ -198,22 +205,9 @@ app.controller('newsCtrl', function($scope, $http) {
 
       var queryTime = data.responseHeader.QTime;
 
-      $scope.queryTime = 'The query takes ' + queryTime + ' milliseconds. ';
+      $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
 
-      //Later, get the actual spelling hints
-      var spellings = ['ABC','DEG'];
 
-      if(spellings.length == 0) {
-
-      } else{
-        var comment = 'Do you mean ' + spellings[0];
-
-        for (var i = 1; i < spellings.length; i++) {
-          comment += ', ' + spellings[i];
-        }
-        comment += '?';
-      }
-      $scope.comment = comment;
       var monthRecords = [];
       var month;
       var monthCount = 0;
