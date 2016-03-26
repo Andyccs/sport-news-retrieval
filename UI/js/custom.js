@@ -8,6 +8,16 @@ var keywords;
 
 app.controller('newsCtrl', function($scope, $http) {
 
+  $scope.comment = 'Popular searches: Warriors, Curry for Three';
+
+  $scope.suggest = function(suggestion) {
+    $scope.keywords = suggestion;
+    keywords = $scope.keywords;
+    $scope.hasSuggestions = false;
+    makeRequest(true);
+    makeSuggestion();
+  };
+
   $scope.update = function(typed) {
     var url = 'http://localhost:8983/solr/sport/suggest?';
     var component = 'json.wrf=JSON_CALLBACK';
@@ -258,9 +268,60 @@ app.controller('newsCtrl', function($scope, $http) {
         }
       }
     });
-
   }
-  $scope.comment = 'Popular searches: Warriors, Curry for Three';
+
+  function makeSuggestion() {
+    /////////////////////////////////////////////
+    //make request for suggestions
+    var url = 'http://localhost:8983/solr/sport/select?';
+
+    var comp = 'json.wrf=JSON_CALLBACK' +
+        '&wt=json' +
+        '&spellcheck.q=' + encodeURIComponent(keywords);
+
+
+    $http.jsonp(url + comp).success(function(data) {
+      var suggestions = [];
+
+      if(data.spellcheck.suggestions.length == 0) {
+        //Do nothing
+      }else if(data.spellcheck.suggestions.length == 2) {
+        //Only suggestion for one word
+        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[1].suggestion[i].word;
+
+          suggestions.push(word);
+        }
+      }else{
+        var sugg1 = [];
+
+        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[1].suggestion[i].word;
+
+          sugg1.push(word);
+        }
+
+        var sugg2 = [];
+
+        for(var i = 0;i < data.spellcheck.suggestions[3].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[3].suggestion[i].word;
+
+          sugg2.push(word);
+        }
+
+        if(sugg1.length == 0) {
+          suggestions = sugg2;
+        }else {
+          for(var i = 0;i < sugg1.length;i++) {
+            for(var j = 0;j < sugg2.length;j++) {
+              suggestions.push(sugg1[i] + ' ' + sugg2[j]);
+            }
+          }
+        }
+      }
+      $scope.suggestions = suggestions;
+    });
+  }
 
   $scope.pre = function() {
     currPage = currPage - 1;
@@ -289,11 +350,14 @@ app.controller('newsCtrl', function($scope, $http) {
   $scope.search = function() {
     $scope.preDisabled = true;
     $scope.nextDisabled = true;
+    $scope.hasSuggestions = false;
+
     currPage = 1;
 
     keywords = $scope.keywords;
 
     makeRequest(true);
+    makeSuggestion();
 
   };
 

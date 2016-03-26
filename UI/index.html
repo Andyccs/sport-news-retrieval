@@ -52,7 +52,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
   <div class="row" style="padding-top:50px;padding-bottom:50px">
     <div class="col-md-3">
-      <h1 style="font-size:150%">{{queryTime}} </h1>
 
       <br>
       <div ng-show="!enableMonthFilter" style="padding:30px 0 30px 0">
@@ -124,7 +123,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
   </div>
   <!--search end here-->
+<hr>
+<div ng-show="hasSuggestions" class="row">
+  <h1> Do you mean: </h1>
+</div>
+<div class="row">
+<ul style="list-style: none;"><li style="display: inline;padding-left:4em;font-style: italic;"  ng-repeat="x in suggestions"><a href ng-click="suggest(x)">{{x}}</a></li>
+</ul>
+  
+</div>
 
+<div>
   <div class="copyright">
     <p>CZ4034 Information Retrieval Team</p>
   </div>
