@@ -120,13 +120,13 @@ After preprocessing step, we will run train some classifiers and evaluate the cl
 #### Linear support vector classification
 output:
 
-- data/log_reg_result.csv
+- data/tfidf_linsvc.csv
 
-- figure/tfid_linsvc_classifier
+- figure/tfidf_linsvc
 
-- metric_result/tfid_linsvc_classifier.txt
+- metric_result/tfidf_linsvc.txt
 
-- model/linear_svc.pkl*
+- model/tfidf_linsvc.pkl*
 
 ```Shell
 $ python classifier/linear_svc.py
@@ -135,13 +135,13 @@ $ python classifier/linear_svc.py
 #### Gensim classifier
 output:
 
-- data/word2vec_linsvc_result.csv
+- data/w2v_linsvc.csv
 
-- figure/gensim_classifier
+- figure/w2v_linsvc
 
-- metric_result/gensim_classifier.txt
+- metric_result/w2v_linsvc.txt
 
-- model/word2vec_model.doc2vec
+- model/w2v_linsvc.doc2vec
 
 ```Shell
 $ python classifier/gensim_classifier.py
@@ -151,11 +151,11 @@ $ python classifier/gensim_classifier.py
 
 output:
 
-- data/ensemble_ada_result.csv
+- data/tfidf_ada.csv
 
-- metric/ensemble_ada.txt
+- metric/tfidf_ada.txt
 
-- model/ensemble_ada_classifier.pickle
+- model/tfidf_ada.pickle
 
 ```Shell
 $ python classifier/ensemble_classifier.py 
