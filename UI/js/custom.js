@@ -19,7 +19,11 @@ app.controller('newsCtrl', function($scope, $http) {
   };
 
   $scope.update = function(typed) {
-    var url = 'http://localhost:8983/solr/sport/suggest?';
+    // You may prefix this with http://localhost:8983 but please do not check that in. In real
+    // deployment scenario, Solr will never live in localhost, but it will live in another server /
+    // computer. We should not specify any domain name as well, such as http://example.com, because
+    // you are not allow to do cross domain request.
+    var url = 'solr/sport/suggest?';
     var component = 'json.wrf=JSON_CALLBACK';
 
     component += '&wt=json';
@@ -128,7 +132,7 @@ app.controller('newsCtrl', function($scope, $http) {
     // deployment scenario, Solr will never live in localhost, but it will live in another server /
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
-    var domain = 'http://localhost:8983/solr/sport/select?';
+    var domain = 'solr/sport/select?';
     var component = 'json.wrf=JSON_CALLBACK' +
         '&q=' + keywords +
         '&start=' + start +
@@ -273,7 +277,11 @@ app.controller('newsCtrl', function($scope, $http) {
   function makeSuggestion() {
     /////////////////////////////////////////////
     //make request for suggestions
-    var url = 'http://localhost:8983/solr/sport/select?';
+    // You may prefix this with http://localhost:8983 but please do not check that in. In real
+    // deployment scenario, Solr will never live in localhost, but it will live in another server /
+    // computer. We should not specify any domain name as well, such as http://example.com, because
+    // you are not allow to do cross domain request.
+    var url = 'solr/sport/select?';
 
     var comp = 'json.wrf=JSON_CALLBACK' +
         '&wt=json' +

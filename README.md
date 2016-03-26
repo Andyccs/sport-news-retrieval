@@ -266,7 +266,7 @@ Build docker images:
 
 ```Shell
 $ export PROJECT_ID=sport-news-retrieval
-$ export VERSION=v1.1-rc5
+$ export VERSION=v1.1-rc6
 $ docker build -t asia.gcr.io/${PROJECT_ID}/proxy:${VERSION} --file proxy/Dockerfile .
 $ docker build -t asia.gcr.io/${PROJECT_ID}/solr:${VERSION} --file index/Dockerfile .
 $ docker build -t asia.gcr.io/${PROJECT_ID}/recrawler:${VERSION} --file recrawler/Dockerfile .
@@ -325,7 +325,7 @@ $ kubectl get services
 
 Indexing to solr:
 ```Shell
-$ bin/post -c sport -host <external ip of solr-node> data/*.json
+$ bin/post -c sport -host <external ip of solr-node> data/all_data.json
 ```
 
 Stop all pods and services:
