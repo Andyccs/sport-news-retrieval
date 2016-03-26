@@ -6,7 +6,7 @@ from sklearn.externals import joblib
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
 from sklearn.svm import LinearSVC
-import csv
+from sklearn.preprocessing import Imputer
 import logging
 import numpy as np
 
@@ -69,6 +69,8 @@ def gensim_classifier():
   index_value, train_set, test_set = train_test_split(0.80, sentences)
   train_vector = getAvgFeatureVecs(train_set, w2v_model, num_features)
   test_vector = getAvgFeatureVecs(test_set, w2v_model, num_features)
+  train_vector = Imputer().fit_transform(train_vector)
+  test_vector = Imputer().fit_transform(test_vector)
 
   # train model and predict
   model = LinearSVC()
