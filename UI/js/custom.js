@@ -283,42 +283,49 @@ app.controller('newsCtrl', function($scope, $http) {
     $http.jsonp(url + comp).success(function(data) {
       var suggestions = [];
 
-      if(data.spellcheck.suggestions.length == 0) {
-        //Do nothing
-      }else if(data.spellcheck.suggestions.length == 2) {
-        //Only suggestion for one word
-        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
-          var word = data.spellcheck.suggestions[1].suggestion[i].word;
-
-          suggestions.push(word);
+      for(var i = 0;i < data.spellcheck.collations.length;i++) {
+        if(i % 2 == 0) {
+          continue;
         }
-      }else{
-        var sugg1 = [];
-
-        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
-          var word = data.spellcheck.suggestions[1].suggestion[i].word;
-
-          sugg1.push(word);
-        }
-
-        var sugg2 = [];
-
-        for(var i = 0;i < data.spellcheck.suggestions[3].suggestion.length;i++) {
-          var word = data.spellcheck.suggestions[3].suggestion[i].word;
-
-          sugg2.push(word);
-        }
-
-        if(sugg1.length == 0) {
-          suggestions = sugg2;
-        }else {
-          for(var i = 0;i < sugg1.length;i++) {
-            for(var j = 0;j < sugg2.length;j++) {
-              suggestions.push(sugg1[i] + ' ' + sugg2[j]);
-            }
-          }
-        }
+        suggestions.push(data.spellcheck.collations[i]);
       }
+      // if(data.spellcheck.suggestions.length == 0) {
+      //   //Do nothing
+      // }else if(data.spellcheck.suggestions.length == 2) {
+      //   //Only suggestion for one word
+      //   for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+      //     var word = data.spellcheck.suggestions[1].suggestion[i].word;
+      //     console.log(word);
+      //
+      //     suggestions.push(word);
+      //   }
+      // }else{
+      //   var sugg1 = [];
+      //
+      //   for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+      //     var word = data.spellcheck.suggestions[1].suggestion[i].word;
+      //
+      //     sugg1.push(word);
+      //   }
+      //
+      //   var sugg2 = [];
+      //
+      //   for(var i = 0;i < data.spellcheck.suggestions[3].suggestion.length;i++) {
+      //     var word = data.spellcheck.suggestions[3].suggestion[i].word;
+      //
+      //     sugg2.push(word);
+      //   }
+      //
+      //   if(sugg1.length == 0) {
+      //     suggestions = sugg2;
+      //   }else {
+      //     for(var i = 0;i < sugg1.length;i++) {
+      //       for(var j = 0;j < sugg2.length;j++) {
+      //         suggestions.push(sugg1[i] + ' ' + sugg2[j]);
+      //       }
+      //     }
+      //   }
+      // }
       $scope.suggestions = suggestions;
     });
   }
