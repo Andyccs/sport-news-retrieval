@@ -3,7 +3,7 @@ import csv
 
 
 def get_labels():
-  with open('data/label_1.csv', 'r') as label_file:
+  with open('data/label_api.csv', 'r') as label_file:
     reader = csv.reader(label_file)
     label_list = list(reader)[0]
   return label_list
