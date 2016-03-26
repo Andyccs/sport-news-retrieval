@@ -1,5 +1,6 @@
+from common import create_directory
+from data_source import get_labelled_tweets
 import timeit
-from data_source import get_labelled_tweets, create_directory
 
 
 def get_dataset_time(time, repetitions):

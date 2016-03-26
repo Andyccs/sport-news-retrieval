@@ -1,5 +1,5 @@
-import urllib
 import json
+import urllib
 
 
 def classify(filename):

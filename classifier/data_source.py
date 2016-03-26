@@ -1,5 +1,5 @@
-import os
 import csv
+import os
 
 
 def get_labels():
@@ -23,11 +23,3 @@ def train_test_split(percentage, data_set):
   test_vector = data_set[index_value:]
 
   return index_value, train_vector, test_vector
-
-
-def create_directory(data):
-  try:
-    os.makedirs(data)
-  except OSError:
-    if not os.path.isdir(data):
-      raise

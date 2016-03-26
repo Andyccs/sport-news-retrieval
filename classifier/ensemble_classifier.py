@@ -1,10 +1,11 @@
-import cPickle
-from data_source import get_labelled_tweets, get_labels, create_directory
+from common import create_directory
+from data_source import get_labelled_tweets, get_labels
 from evaluation_metrics import class_list, generate_eval_metrics
 from sklearn.cross_validation import train_test_split
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import label_binarize
+import cPickle
 
 
 def save_model(model, file_name):
