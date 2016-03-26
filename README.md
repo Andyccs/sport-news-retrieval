@@ -9,8 +9,8 @@ First, we install all requirements for crawler by using the following command:
 ```Shell
 $ pip install -r crawler/requirements.txt
 ```
-
-The crawler will crawl [ESPN](https://twitter.com/espn?lang=en) and [TheNBACentral](https://twitter.com/TheNBACentral?lang=en) twitter timeline. To use this crawler, we first need to obtain an API key from [Twitter Application Management](https://apps.twitter.com) website. Next, create a file `tweeter_key.py` in `crawler` folder. This file will not be checked in to Git. 
+'SimpleNBAScores', 'ESPNNBA', 'NBATV']
+The crawler will crawl [ESPN](https://twitter.com/espn), [TheNBACentral](https://twitter.com/TheNBACentral), [SimpleNBAScore](https://twitter.com/SimpleNBAScore), [ESPNNBA](https://twitter.com/ESPNNBA), and [NBATV](https://twitter.com/NBATV) twitter timeline. To use this crawler, we first need to obtain an API key from [Twitter Application Management](https://apps.twitter.com) website. Next, create a file `tweeter_key.py` in `crawler` folder. This file will not be checked in to Git.
 
 ```Python
 # Replace the values with your API key values
@@ -57,7 +57,7 @@ $ post -c sport TheNBACentral_data.json
 ```
 ## Classifier
 
-First, we install all requirements for crawler by using the following command:
+First, we install all requirements for classifier by using the following command:
 
 ```Shell
 $ pip install -r classifier/requirements.txt
@@ -115,7 +115,7 @@ Then, it will output the preprocessed data to `labelled_tweets.csv` and `label_a
 $ python classifier/preprocess.py
 ```
 
-### Example content of labelled_tweets.csv
+Example content of `labelled_tweets.csv`:
 
 ```
 "buzzer-beating 3 win crucial bubble game make gary payton happy? #pac12afterdark never disappoints. https://t.co/hh0omzffa8","diaz: you're steroids mcgregor: sure am. i'm animal. icymi: #ufc196 presser went expected. https://t.co/jqb72ohv4g"
@@ -177,8 +177,6 @@ We have a simple user interface that use Solr server to retrieve sport news. Cur
 
 - A button to trigger the crawling in the backend
 - A text area waiting for keywords. The click of search button will trigger a query to backend solr to retrieve records. Then records are displayed in the page. 
-
-*Note: In the current implementation, an alert view will show up once the button is clicked. In the future, we shall modify the clicking event so that it makes the recrawling request to backend. TODO(RUAN0007): we need a backend server to accomplish recrawling task*
 
 To install all components for this website, we first need to install bower using [node package manager](https://www.npmjs.com/):
 
