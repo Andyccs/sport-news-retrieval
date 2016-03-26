@@ -2,15 +2,13 @@
 
 CZ4034 Information Retrieval Assignment
 
-## Setting up
+## Crawler
 
-First, we install all requirements for this project by using the following command:
+First, we install all requirements for crawler by using the following command:
 
 ```Shell
-$ pip install -r requirements.txt
+$ pip install -r crawler/requirements.txt
 ```
-
-## Crawler
 
 The crawler will crawl [ESPN](https://twitter.com/espn?lang=en) and [TheNBACentral](https://twitter.com/TheNBACentral?lang=en) twitter timeline. To use this crawler, we first need to obtain an API key from [Twitter Application Management](https://apps.twitter.com) website. Next, create a file `tweeter_key.py` in `crawler` folder. This file will not be checked in to Git. 
 
@@ -32,6 +30,12 @@ Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created 
 
 ## Recrawler
 
+First, we install all requirements for recrawler by using the following command:
+
+```Shell
+$ pip install -r recrawler/requirements.txt
+```
+
 The recrawler is a Django server and rely on the crawler to do the recrawling task for incremental index. When user submits a request to the server, it will perform an asynchronous task to crawl the tweets and send an update request to Solr server. To run the recrawler server, we first need to setup the crawler, as mentioned in previous section. Then, we run the following commands:
 
 ```Shell
@@ -52,12 +56,6 @@ $ post -c sport espn_data.json
 $ post -c sport TheNBACentral_data.json
 ```
 ## Classifier
-
-The classifier will call the API from [text-processing.com](text-processing.com/api). We run the classifier by using the following command:
-
-```Shell
-$ python classifier/classify.py
-```
 
 First, we install all requirements for crawler by using the following command:
 
@@ -118,7 +116,10 @@ $ python classifier/preprocess.py
 ```
 
 ### Example content of labelled_tweets.csv
+
+```
 "buzzer-beating 3 win crucial bubble game make gary payton happy? #pac12afterdark never disappoints. https://t.co/hh0omzffa8","diaz: you're steroids mcgregor: sure am. i'm animal. icymi: #ufc196 presser went expected. https://t.co/jqb72ohv4g"
+```
 
 ### Classification
 After preprocessing step, we will run train some classifiers and evaluate the classifier. Currently, we have three classifier, i.e. linear support vector classification, gensim classifier, and ensemble classifier. By default, the following scripts will use `evaluation_metrics.py` to generate evalutation metrics. 
