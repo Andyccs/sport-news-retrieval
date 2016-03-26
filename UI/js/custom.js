@@ -7,19 +7,36 @@ var keywords;
 
 
 app.controller('newsCtrl', function($scope, $http) {
-  $scope.items = ['Lord of the Rings',
-                       'Drive',
-                       'Science of Sleep',
-                       'Back to the Future',
-                       'Oldboy'];
+
+  $scope.comment = 'Popular searches: Warriors, Curry for Three';
+
+  $scope.suggest = function(suggestion) {
+    $scope.keywords = suggestion;
+    keywords = $scope.keywords;
+    $scope.hasSuggestions = false;
+    makeRequest(true);
+    makeSuggestion();
+  };
 
   $scope.update = function(typed) {
-           // // MovieRetriever could be some service returning a promise
-           // $scope.newmovies = MovieRetriever.getmovies(typed);
-           // $scope.newmovies.then(function(data){
-           //   $scope.movies = data;
-           // })
-    return ['a','b'];
+    var url = 'http://localhost:8983/solr/sport/suggest?';
+    var component = 'json.wrf=JSON_CALLBACK';
+
+    component += '&wt=json';
+    component += '&spellcheck.q=' + encodeURIComponent(typed);
+
+    $http.jsonp(url + component).success(function(data) {
+      var items = [];
+
+      for(var i = 0;i < data.spellcheck.collations.length;i++) {
+        if(i % 2 == 0) {
+          continue;
+        }
+        items.push(data.spellcheck.collations[i]);
+      }
+      $scope.items = items;
+    });
+
   };
 
 
@@ -198,22 +215,9 @@ app.controller('newsCtrl', function($scope, $http) {
 
       var queryTime = data.responseHeader.QTime;
 
-      $scope.queryTime = 'The query takes ' + queryTime + ' milliseconds. ';
+      $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
 
-      //Later, get the actual spelling hints
-      var spellings = ['ABC','DEG'];
 
-      if(spellings.length == 0) {
-
-      } else{
-        var comment = 'Do you mean ' + spellings[0];
-
-        for (var i = 1; i < spellings.length; i++) {
-          comment += ', ' + spellings[i];
-        }
-        comment += '?';
-      }
-      $scope.comment = comment;
       var monthRecords = [];
       var month;
       var monthCount = 0;
@@ -264,9 +268,60 @@ app.controller('newsCtrl', function($scope, $http) {
         }
       }
     });
-
   }
-  $scope.comment = 'Popular searches: Warriors, Curry for Three';
+
+  function makeSuggestion() {
+    /////////////////////////////////////////////
+    //make request for suggestions
+    var url = 'http://localhost:8983/solr/sport/select?';
+
+    var comp = 'json.wrf=JSON_CALLBACK' +
+        '&wt=json' +
+        '&spellcheck.q=' + encodeURIComponent(keywords);
+
+
+    $http.jsonp(url + comp).success(function(data) {
+      var suggestions = [];
+
+      if(data.spellcheck.suggestions.length == 0) {
+        //Do nothing
+      }else if(data.spellcheck.suggestions.length == 2) {
+        //Only suggestion for one word
+        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[1].suggestion[i].word;
+
+          suggestions.push(word);
+        }
+      }else{
+        var sugg1 = [];
+
+        for(var i = 0;i < data.spellcheck.suggestions[1].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[1].suggestion[i].word;
+
+          sugg1.push(word);
+        }
+
+        var sugg2 = [];
+
+        for(var i = 0;i < data.spellcheck.suggestions[3].suggestion.length;i++) {
+          var word = data.spellcheck.suggestions[3].suggestion[i].word;
+
+          sugg2.push(word);
+        }
+
+        if(sugg1.length == 0) {
+          suggestions = sugg2;
+        }else {
+          for(var i = 0;i < sugg1.length;i++) {
+            for(var j = 0;j < sugg2.length;j++) {
+              suggestions.push(sugg1[i] + ' ' + sugg2[j]);
+            }
+          }
+        }
+      }
+      $scope.suggestions = suggestions;
+    });
+  }
 
   $scope.pre = function() {
     currPage = currPage - 1;
@@ -295,11 +350,14 @@ app.controller('newsCtrl', function($scope, $http) {
   $scope.search = function() {
     $scope.preDisabled = true;
     $scope.nextDisabled = true;
+    $scope.hasSuggestions = false;
+
     currPage = 1;
 
     keywords = $scope.keywords;
 
     makeRequest(true);
+    makeSuggestion();
 
   };
 
