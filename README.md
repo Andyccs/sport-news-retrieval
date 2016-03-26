@@ -66,13 +66,13 @@ $ pip install -r classifier/requirements.txt
 You need to run the crawler at least once, and make sure that `espn_data.json` file is available in data folder. The pipeline of our classifier is shown in the figure below
 
 ```
-espn_data.json --> classify.py --> preprocess.py --> some classifier --> evaluation_metrics.py
+espn_data.json --> sentiment_api.py --> preprocess.py --> some classifier --> evaluation_metrics.py
 ```
 
 We will first call the API from [text-processing.com](text-processing.com/api) to label our raw data. The following script will call the API, an output a json file `espn_data_result.json` in `data` folder. `espn_data_result.json` contains probabilities and labels for data. The API only allows 1 request per seconds, so you might want to grab a coffee while waiting.
 
 ```Shell
-$ python classifier/classify.py
+$ python classifier/sentiment_api.py
 
 # Example content of espn_data_result.json
 # [{

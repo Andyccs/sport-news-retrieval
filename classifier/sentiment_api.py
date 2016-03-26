@@ -2,7 +2,7 @@ import json
 import urllib
 
 
-def classify(filename):
+def sentiment_api(filename):
   print 'Doing sentiment analysis for', filename
 
   with open('data/' + filename + '_data.json') as json_file:
@@ -29,4 +29,4 @@ def classify(filename):
 
 
 if __name__ == '__main__':
-  classify('espn')
+  sentiment_api('espn')
