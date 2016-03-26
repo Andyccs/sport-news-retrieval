@@ -9,7 +9,7 @@ First, we install all requirements for crawler by using the following command:
 ```Shell
 $ pip install -r crawler/requirements.txt
 ```
-'SimpleNBAScores', 'ESPNNBA', 'NBATV']
+
 The crawler will crawl [ESPN](https://twitter.com/espn), [TheNBACentral](https://twitter.com/TheNBACentral), [SimpleNBAScore](https://twitter.com/SimpleNBAScore), [ESPNNBA](https://twitter.com/ESPNNBA), and [NBATV](https://twitter.com/NBATV) twitter timeline. To use this crawler, we first need to obtain an API key from [Twitter Application Management](https://apps.twitter.com) website. Next, create a file `tweeter_key.py` in `crawler` folder. This file will not be checked in to Git.
 
 ```Python
@@ -26,7 +26,7 @@ We run the crawler by using the following command:
 $ python crawler/news_crawler.py
 ```
 
-Two json files, `espn_data.json` and `TheNBACentral_data.json`, will be created at the `data` directory of this project.
+Five json files, `espn_data.json`, `TheNBACentral_data.json`, `SimpleNBAScores`, `ESPNNBA`, and `NBATV` will be created at the `data` directory of this project.
 
 ## Recrawler
 
@@ -96,7 +96,7 @@ $ python classifier/main.py
 
 The `figure` folder contains the graphs of the precision recall curve. The `metric_result` folder contains the evaluation metrics of the classifier and the timing to run the classifier. The `model` folder contains the trained classifier. 
 
-Alternatively, you may run the scripts individually. 
+Alternatively, you may run the scripts individually, as shown in the following sections
 
 ### Preprocessing
 The preprocessing step will do the following in sequence:
