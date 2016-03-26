@@ -6,7 +6,7 @@ if __name__ == '__main__':
   if not has_classified_data:
     sentiment_api.sentiment_api('espn')
     sentiment_api.sentiment_api('TheNBACentral')
-  preprocess.preprocess()
+  preprocess.preprocess('espn')
   linear_svc.lin_svc()
   gensim_classifier.gensim_classifier()
   ensemble_classifier.ensemble_classify()
