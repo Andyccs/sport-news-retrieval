@@ -1,14 +1,14 @@
-import csv
-import logging
-
-import numpy as np
-from data_source import get_labelled_tweets, get_labels, train_test_split, create_directory
+from common import create_directory
+from data_source import get_labelled_tweets, get_labels, train_test_split
 from evaluation_metrics import evaluate, class_list
 from gensim.models.word2vec import Word2Vec
 from sklearn.externals import joblib
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
 from sklearn.svm import LinearSVC
+from sklearn.preprocessing import Imputer
+import logging
+import numpy as np
 
 
 def makeFeatureVec(list_word, model, num_features):
@@ -69,6 +69,8 @@ def gensim_classifier():
   index_value, train_set, test_set = train_test_split(0.80, sentences)
   train_vector = getAvgFeatureVecs(train_set, w2v_model, num_features)
   test_vector = getAvgFeatureVecs(test_set, w2v_model, num_features)
+  train_vector = Imputer().fit_transform(train_vector)
+  test_vector = Imputer().fit_transform(test_vector)
 
   # train model and predict
   model = LinearSVC()
@@ -77,7 +79,7 @@ def gensim_classifier():
 
   # output result to csv
   create_directory('data')
-  result.tofile("data/word2vec_linsvc_result.csv", sep=',')
+  result.tofile("data/w2v_linsvc.csv", sep=',')
 
   # store the model to mmap-able files
   create_directory('model')
@@ -89,7 +91,7 @@ def gensim_classifier():
   binarise_result = label_binarize(result, classes=class_list)
   binarise_labels = label_binarize(label_list, classes=class_list)
 
-  evaluate(binarise_result, binarise_labels[index_value:], label_score, 'gensim_classifier')
+  evaluate(binarise_result, binarise_labels[index_value:], label_score, 'w2v_linsvc')
 
 
 if __name__ == '__main__':

@@ -1,11 +1,44 @@
-import json
 from bs4 import BeautifulSoup
+from common import save_to_csv
 from nltk.corpus import stopwords
-import random
-from nltk.metrics.agreement import AnnotationTask
-import csv
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+import json
+import nltk
+import re
+import string
 
-filename = 'espn'
+lemmatizer = WordNetLemmatizer()
+
+
+def wordnet_pos_code(tag):
+  if tag == None:
+    return ''
+  elif tag.startswith('NN'):
+    return wordnet.NOUN
+  elif tag.startswith('VB'):
+    return wordnet.VERB
+  elif tag.startswith('JJ'):
+    return wordnet.ADJ
+  elif tag.startswith('RB'):
+    return wordnet.ADV
+  else:
+    return ''
+
+
+def transform_apostrophe(word, pos_tag):
+  if word == "n't":
+    word = "not"
+  elif word == "'ll":
+    word = "will"
+  elif word == "'re":
+    word = "are"
+  elif word == "'ve":
+    word = "have"
+  elif word == "'s" and pos_tag == "VBZ":
+    word = "is"
+  return word
 
 
 def preprocess_tweets(data, stop_words):
@@ -14,36 +47,54 @@ def preprocess_tweets(data, stop_words):
   # remove html
   processed_data = [BeautifulSoup(sentence, "html.parser").get_text()
                     for sentence in processed_data]
-  # remove stopwords
-  processed_data = [list.split() for list in processed_data]
-  proc_data = []
-  for list in processed_data:
-    proc_list = [word for word in list if word not in stop_words]
-    proc_data.append(proc_list)
 
-  return proc_data
+  # split sentence to words
+  processed_data = [sentence.split() for sentence in processed_data]
+
+  tweet_list = []
+  for sentence in processed_data:
+    # Remove links
+    sentence = [word for word in sentence if not re.match("^http\S+", word)]
+
+    # Remove mention
+    sentence = [word for word in sentence if not re.match("\S*@\S+", word)]
+
+    # Remove hashtag
+    sentence = [word for word in sentence if not re.match("\S*#\S+", word)]
+
+    tweet_text = " ".join(sentence)
+    tweet_list.append(tweet_text)
+
+  # Lemmatization
+  for i in range(len(tweet_list)):
+    tweet = tweet_list[i]
+    tokens = word_tokenize(tweet)
+
+    preproccesed_string = []
+    for (word, pos_tag) in nltk.pos_tag(tokens):
+      word = transform_apostrophe(word, pos_tag)
+      # Skip if it is stopwords
+      if word in stop_words:
+        continue
+      elif pos_tag != None and pos_tag in [".", "TO", "IN", "DT", "UH", "WDT", "WP", "WP$", "WRB"]:
+        continue
+
+      if wordnet_pos_code(pos_tag) != "":
+        word = lemmatizer.lemmatize(word, wordnet_pos_code(pos_tag))
+      preproccesed_string.append(word)
+
+    tweet_list[i] = " ".join(preproccesed_string)
+
+  # Remove punctuation
+  for i in range(len(tweet_list)):
+    sentence = tweet_list[i]
+    sentence = sentence.encode('utf-8').translate(string.maketrans("", ""), string.punctuation)
+    tweet_list[i] = sentence
+
+  return tweet_list
 
 
-def change_some_values(label_list):
-  """
-  change some labels in the list to neutral
-  :param label_list: list of labels
-  :type label_list: list[str]
-  :return: list of labels that has been randomly changed
-  :rtype: list[str]
-  """
-  new_list = []
-  for index in xrange(0, len(label_list)):
-    value = label_list[index]
-    random_value = random.randint(1, 10)
-    if random_value < 2:
-      new_list.append('neutral')
-    else:
-      new_list.append(value)
-  return new_list
-
-
-def preprocess():
+def preprocess(filename):
   # open file
   data = []
   with open('data/' + filename + '_data.json') as json_file:
@@ -55,46 +106,18 @@ def preprocess():
 
   # preprocess
   stop_words = stopwords.words('english')
-  proc_data = preprocess_tweets(data, stop_words)
-  # split into label and unlabelled
-  to_be_labelled_data = proc_data
+  tweet_list = preprocess_tweets(data, stop_words)
 
-  # save labelled data to csv
-  tweet_list = []
-  for row in to_be_labelled_data:
-    tweet_text = " ".join(row)
-    tweet_list.append(tweet_text)
-  with open('data/labelled_tweet.csv', 'w') as tweet_file:
-    wr = csv.writer(tweet_file, delimiter=',', quoting=csv.QUOTE_ALL)
-    wr.writerow(tweet_list)
+  save_to_csv('data/labelled_tweet.csv', tweet_list)
 
-  # results
+  # save labels
   label_list = []
   with open('data/' + filename + '_data_result.json') as json_file:
     tweets = json.load(json_file)
     for row in tweets:
       label_list.append(row['label'])
-
-  # change some results
-  man_1_label = change_some_values(label_list)
-  man_2_label = change_some_values(label_list)
-
-  # calculate inter annotator agreement
-  civ_1 = ['c1'] * len(man_1_label)
-  civ_2 = ['c2'] * len(man_2_label)
-  item_num_list = range(0, len(man_1_label))
-  civ_1 = zip(civ_1, item_num_list, man_1_label)
-  civ_2 = zip(civ_2, item_num_list, man_2_label)
-  task_data = civ_1 + civ_2
-  task = AnnotationTask(data=task_data)
-
-  # observed disagreement for the weighted kappa coefficient
-  print 'kappa: ' + str(task.kappa())
-  # save the label to a csv file
-  with open('data/label_1.csv', 'w') as label_file:
-    wr = csv.writer(label_file, quoting=csv.QUOTE_ALL)
-    wr.writerow(man_1_label)
+  save_to_csv('data/label_api.csv', label_list)
 
 
 if __name__ == '__main__':
-  preprocess()
+  preprocess('espn')

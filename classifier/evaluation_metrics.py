@@ -1,7 +1,7 @@
-import numpy as np
-from data_source import create_directory
+from common import create_directory
 from matplotlib import pyplot as plt
 from sklearn.metrics import accuracy_score, precision_recall_curve, average_precision_score, f1_score, precision_score, recall_score
+import numpy as np
 
 class_list = ['pos', 'neg', 'neutral']
 

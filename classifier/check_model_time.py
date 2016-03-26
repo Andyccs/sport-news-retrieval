@@ -1,5 +1,6 @@
+from common import create_directory
+from data_source import get_labelled_tweets
 import timeit
-from data_source import get_labelled_tweets, create_directory
 
 
 def get_dataset_time(time, repetitions):
@@ -27,9 +28,9 @@ from data_source import get_labelled_tweets, get_labels;
 from sklearn.externals import joblib;
 tweet_list = get_labelled_tweets();
 # do transformation into vector;
-vectoriser = joblib.load('model/tf_idf_vectoriser.pkl');
+vectoriser = joblib.load('model/tfidf_vectoriser.pkl');
 vectorised_tweet_list = vectoriser.transform(tweet_list);
-svm_model = joblib.load('model/linear_svc.pkl');
+svm_model = joblib.load('model/tfidf_linsvc.pkl');
 svm_model.predict(vectorised_tweet_list);
 """
 
@@ -48,9 +49,9 @@ from data_source import get_labelled_tweets;
 from sklearn.externals import joblib;
 
 tweet_list = get_labelled_tweets();
-vectoriser = joblib.load('model/tf_idf_vectoriser.pkl');
+vectoriser = joblib.load('model/tfidf_vectoriser.pkl');
 vectorised_tweet_list = vectoriser.transform(tweet_list);
-with open('model/ensemble_ada_classifier.pickle', 'rb') as f:
+with open('model/tfidf_ada.pickle', 'rb') as f:
     ensemble_model = cPickle.load(f);
 ensemble_model.predict(vectorised_tweet_list);
 """

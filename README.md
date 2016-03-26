@@ -59,16 +59,110 @@ The classifier will call the API from [text-processing.com](text-processing.com/
 $ python classifier/classify.py
 ```
 
-Two json files, `espn_data_sentiments.json` and `TheNBACentral_data_sentiments.json`, will be created at the 'data' directory of this project. A new 'label' field is created for each tweet, with 3 possible values, i.e. 'neg', 'neutral', and 'pos'. 
+First, we install all requirements for crawler by using the following command:
 
-Next, run main.py. It does preprocessing to the data crawled. And runs 2 classifiers next.  
+```Shell
+$ pip install -r classifier/requirements.txt
+```
+
+You need to run the crawler at least once, and make sure that `espn_data.json` file is available in data folder. The pipeline of our classifier is shown in the figure below:
+
+```
+espn_data.json --> sentiment_api.py --> preprocess.py --> some classifier --> evaluation_metrics.py
+```
+
+We will first call the API from [text-processing.com](text-processing.com/api) to label our raw data. The following script will call the API, an output a json file `espn_data_result.json` in `data` folder. `espn_data_result.json` contains probabilities and labels for data. The API only allows 1 request per seconds, so you might want to grab a coffee while waiting.
+
+``` Shell 
+$ python classifier/sentiment_api.py
+```
+
+### Example content of espn_data_result.json
+
+[{
+  "probability": {
+    "neg": 0.4768910438883407,
+    "neutral": 0.8121072206192833,
+    "pos": 0.5231089561116593
+  },
+  "label": "neutral"
+}]
+
+Next, run `main.py`. It does preprocessing to the data crawled. And runs 3 classifiers next.
+
 ```Shell
 $ python classifier/main.py
 ```
-The figure folder contains the graphs of the precision recall curve. The model folder contains the trained classifier. 
 
-### Inter annotator agreement
-The preprocessing.py class calls the nltk [annotation task][https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py].
+The `figure` folder contains the graphs of the precision recall curve. The `metric_result` folder contains the evaluation metrics of the classifier and the timing to run the classifier. The `model` folder contains the trained classifier. 
+
+Alternatively, you may run the scripts individually. 
+
+### Preprocessing
+The preprocessing step will do the following in sequence:
+
+1. Lower case
+2. remove html
+3. remove stopwords
+
+Then, it will output the preprocessed data to `labelled_tweets.csv` and `label_api.csv`. We can run the preprocess step by using the following script:
+
+```Shell
+$ python classifier/preprocess.py
+```
+
+### Example content of labelled_tweets.csv
+"buzzer-beating 3 win crucial bubble game make gary payton happy? #pac12afterdark never disappoints. https://t.co/hh0omzffa8","diaz: you're steroids mcgregor: sure am. i'm animal. icymi: #ufc196 presser went expected. https://t.co/jqb72ohv4g"
+
+### Classification
+After preprocessing step, we will run train some classifiers and evaluate the classifier. Currently, we have three classifier, i.e. linear support vector classification, gensim classifier, and ensemble classifier. By default, the following scripts will use `evaluation_metrics.py` to generate evalutation metrics. 
+
+#### Linear support vector classification
+output:
+
+- data/log_reg_result.csv
+
+- figure/tfid_linsvc_classifier
+
+- metric_result/tfid_linsvc_classifier.txt
+
+- model/linear_svc.pkl*
+
+```Shell
+$ python classifier/linear_svc.py
+```
+
+#### Gensim classifier
+output:
+
+- data/word2vec_linsvc_result.csv
+
+- figure/gensim_classifier
+
+- metric_result/gensim_classifier.txt
+
+- model/word2vec_model.doc2vec
+
+```Shell
+$ python classifier/gensim_classifier.py
+```
+
+#### Ensemble classifier
+
+output:
+
+- data/ensemble_ada_result.csv
+
+- metric/ensemble_ada.txt
+
+- model/ensemble_ada_classifier.pickle
+
+```Shell
+$ python classifier/ensemble_classifier.py 
+```
+
+#### Inter annotator agreement
+The preprocessing.py class calls the nltk [annotation task](https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py).
 
 ## UI Client
 

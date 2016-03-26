@@ -1,10 +1,11 @@
-import cPickle
-from data_source import get_labelled_tweets, get_labels, create_directory
+from common import create_directory
+from data_source import get_labelled_tweets, get_labels
 from evaluation_metrics import class_list, generate_eval_metrics
 from sklearn.cross_validation import train_test_split
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import label_binarize
+import cPickle
 
 
 def save_model(model, file_name):
@@ -45,13 +46,13 @@ def ensemble_classify():
 
   # output result to csv
   create_directory('data')
-  result.tofile("data/ensemble_ada_result.csv", sep=',')
-  save_model(ada_classifier, 'ensemble_ada_classifier')
+  result.tofile("data/tfidf_ada.csv", sep=',')
+  save_model(ada_classifier, 'tfidf_ada')
 
   # evaluation
   binarise_result = label_binarize(result, classes=class_list)
   binarise_labels = label_binarize(test_labels, classes=class_list)
-  generate_eval_metrics(binarise_result, 'ensemble_ada', binarise_labels)
+  generate_eval_metrics(binarise_result, 'tfidf_ada', binarise_labels)
 
 
 if __name__ == '__main__':
