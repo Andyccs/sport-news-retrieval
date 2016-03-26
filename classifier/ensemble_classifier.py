@@ -46,13 +46,13 @@ def ensemble_classify():
 
   # output result to csv
   create_directory('data')
-  result.tofile("data/ensemble_ada_result.csv", sep=',')
-  save_model(ada_classifier, 'ensemble_ada_classifier')
+  result.tofile("data/tfidf_ada.csv", sep=',')
+  save_model(ada_classifier, 'tfidf_ada')
 
   # evaluation
   binarise_result = label_binarize(result, classes=class_list)
   binarise_labels = label_binarize(test_labels, classes=class_list)
-  generate_eval_metrics(binarise_result, 'ensemble_ada', binarise_labels)
+  generate_eval_metrics(binarise_result, 'tfidf_ada', binarise_labels)
 
 
 if __name__ == '__main__':

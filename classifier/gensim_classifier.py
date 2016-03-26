@@ -79,7 +79,7 @@ def gensim_classifier():
 
   # output result to csv
   create_directory('data')
-  result.tofile("data/word2vec_linsvc_result.csv", sep=',')
+  result.tofile("data/w2v_linsvc.csv", sep=',')
 
   # store the model to mmap-able files
   create_directory('model')
@@ -91,7 +91,7 @@ def gensim_classifier():
   binarise_result = label_binarize(result, classes=class_list)
   binarise_labels = label_binarize(label_list, classes=class_list)
 
-  evaluate(binarise_result, binarise_labels[index_value:], label_score, 'gensim_classifier')
+  evaluate(binarise_result, binarise_labels[index_value:], label_score, 'w2v_linsvc')
 
 
 if __name__ == '__main__':
