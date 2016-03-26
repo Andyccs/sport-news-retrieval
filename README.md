@@ -77,8 +77,9 @@ We will first call the API from [text-processing.com](text-processing.com/api) t
 $ python classifier/sentiment_api.py
 ```
 
-### Example content of espn_data_result.json
+Example content of `espn_data_result.json`:
 
+```
 [{
   "probability": {
     "neg": 0.4768910438883407,
@@ -87,8 +88,9 @@ $ python classifier/sentiment_api.py
   },
   "label": "neutral"
 }]
+```
 
-Next, run `main.py`. It does preprocessing to the data crawled. And runs 3 classifiers next.
+Next, run `main.py`. It does preprocessing to the data crawled, and runs 3 classifiers next.
 
 ```Shell
 $ python classifier/main.py
@@ -101,9 +103,13 @@ Alternatively, you may run the scripts individually.
 ### Preprocessing
 The preprocessing step will do the following in sequence:
 
-1. Lower case
+1. lower case
 2. remove html
-3. remove stopwords
+3. remove links
+4. remove mention
+5. remove hashtag
+6. lemmatization and remove stopwords
+7. remove punctuation
 
 Then, it will output the preprocessed data to `labelled_tweets.csv` and `label_api.csv`. We can run the preprocess step by using the following script:
 
