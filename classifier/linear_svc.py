@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
 from sklearn.svm import LinearSVC
-
+from common import save_to_csv
 
 def save_model(model, file_name):
   """
@@ -54,6 +54,7 @@ def lin_svc():
 
   # output result to csv
   create_directory('data')
+  save_to_csv("data/testset_labels.csv", test_labels)
   result.tofile("data/tfidf_linsvc.csv", sep=',')
 
   save_model(ovr_classifier, 'tfidf_linsvc')
