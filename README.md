@@ -91,7 +91,7 @@ Next, we need to run the preprocessing step. The preprocessing step will do the 
 2. remove html
 3. remove stopwords
 
-Then, it will output the preprocessed data to `labelled_tweets.csv`. We can run the preprocess step by using the following script:
+Then, it will output the preprocessed data to `labelled_tweets.csv` and `label_api.csv`. We can run the preprocess step by using the following script:
 
 ```Shell
 $ python classifier/preprocess.py
@@ -99,8 +99,6 @@ $ python classifier/preprocess.py
 # Example content of labelled_tweets.csv
 # "buzzer-beating 3 win crucial bubble game make gary payton happy? #pac12afterdark never disappoints. https://t.co/hh0omzffa8","diaz: you're steroids mcgregor: sure am. i'm animal. icymi: #ufc196 presser went expected. https://t.co/jqb72ohv4g"
 ```
-
-**The preprocess.py will also do a fake inter-annotator agreement calculation. Specifically, it will slightly change the labels espn_data_result.json to calculate kappa. This is cheating.**
 
 After preprocessing step, we will run train some classifiers and evaluate the classifier. Currently, we have three classifier, i.e. linear support vector classification, gensim classifier, and ensemble classifier. By default, the following scriptsw ill use `evaluation_metrics.py` to generate evalutation metrics. 
 
