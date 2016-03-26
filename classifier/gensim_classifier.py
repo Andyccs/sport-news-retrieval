@@ -83,7 +83,6 @@ def gensim_classifier():
 
   # store the model to mmap-able files
   create_directory('model')
-  w2v_model.save('model/word2vec_model.doc2vec')
   joblib.dump(model, 'model/%s.pkl' % 'w2v_linsvc')
 
   # evaluation
