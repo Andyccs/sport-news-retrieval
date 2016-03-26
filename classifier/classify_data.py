@@ -1,7 +1,7 @@
 from sklearn.externals import joblib
 import json
 
-filenames = ['espn', 'TheNBACentral']
+filenames = ['espn', 'TheNBACentral', 'SimpleNBAScores', 'ESPNNBA', 'NBATV']
 ALL_DATA_FILE_PATH = 'data/all_data.json'
 LABEL_KEY = 'label'
 

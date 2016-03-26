@@ -77,5 +77,8 @@ def crawl(name, store=False):
 
 
 if __name__ == "__main__":
-  crawl('espn', 17, store=True)
-  crawl('TheNBACentral', 17, store=True)
+  crawl('espn', store=True)
+  crawl('TheNBACentral', store=True)
+  crawl('SimpleNBAScores', store=True)
+  crawl('ESPNNBA', store=True)
+  crawl('NBATV', store=True)
