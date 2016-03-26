@@ -435,10 +435,29 @@
      <lst name="defaults">
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
-       <str name="facet">on</str>
+       <!-- <str name="facet">on</str> -->
+       <str name="spellcheck">on</str>
+       <str name="spellcheck.dictionary">default</str>
+       <!-- <str name="spellcheck.onlyMorePopular">false</str> -->
+       <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.alternativeTermCount">5</str>
+      <str name="spellcheck.maxResultsForSuggest">5</str> 
+       <str name="spellcheck.count">10</str>
+       <!-- <str name="spellcheck.collate">true</str> -->
+<!--        <str name="spellcheck.extendedResults">true</str>
+       <str name="spellcheck.collate">true</str>
+       <str name="spellcheck.build">true</str>
+       <str name="spellcheck.onlyMorePopular">true</str>
+       <str name="spellcheck.dictionary"></str>
+       <str name="spellcheck.count">5</str> -->
      </lst>
-  </requestHandler>
-
+<!--     <arr name="components">
+      <str>suggest</str>
+    </arr> -->
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+    </requestHandler>
   <!-- A request handler that returns auto complete suggestions -->
   <requestHandler name="/suggest" class="solr.SearchHandler">
     <!-- default values for query parameters can be specified, these
@@ -601,6 +620,20 @@
   </lst>
   </searchComponent> 
 
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+<!-- a spellchecker built from a field of the main index -->
+    <lst name="spellchecker">
+      <str name="name">default</str>
+      <str name="field">text</str>
+      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <!-- minimum accuracy needed to be considered a valid spellcheck suggestion -->
+      <float name="accuracy">0.5</float>
+      <!-- the minimum shared prefix when enumerating terms -->
+      <int name="minPrefix">1</int>
+      <!-- minimum length of a query term to be considered for correction -->
+      <int name="minQueryLength">3</int>
+    </lst>
+  </searchComponent>
   <!-- Terms Component
 
        http://wiki.apache.org/solr/TermsComponent
