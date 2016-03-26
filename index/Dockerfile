@@ -3,7 +3,7 @@ FROM solr:5.5
 
 USER root
 
-COPY data/ /opt/solr/data/
+COPY data/all_data.json /opt/solr/data/all_data.json
 COPY index/solr/sport/core.properties /tmp/solr/sport/core.properties
 COPY index/solr/sport/conf /tmp/solr/sport/conf
 COPY index/solr/solr.xml /tmp/solr/solr.xml

@@ -32,6 +32,7 @@
   <field name="lang" type="string" indexed="true" stored="true" />
   <field name="favorite_count" type="int" indexed="true" stored="true" />
   <field name="text" type="text_microblog" indexed="true" stored="true" />
+  <field name="label" type="string" indexed="true" stored="true" />
 
   <!-- Catch All Fields -->
   <field name="catch_all" type="text_microblog" indexed="true" stored="false" multiValued="true" />

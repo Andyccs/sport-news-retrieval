@@ -1,11 +1,12 @@
-from data_source import get_labelled_tweets, get_labels, create_directory
+from common import create_directory
+from data_source import get_labelled_tweets, get_labels
 from evaluation_metrics import evaluate, class_list
+from sklearn.cross_validation import train_test_split
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import label_binarize
 from sklearn.svm import LinearSVC
-from sklearn.cross_validation import train_test_split
 
 
 def save_model(model, file_name):
@@ -53,17 +54,17 @@ def lin_svc():
 
   # output result to csv
   create_directory('data')
-  result.tofile("data/log_reg_result.csv", sep=',')
+  result.tofile("data/tfidf_linsvc.csv", sep=',')
 
-  save_model(ovr_classifier, 'linear_svc')
-  save_vectoriser(fitted_vectoriser, 'tf_idf_vectoriser')
+  save_model(ovr_classifier, 'tfidf_linsvc')
+  save_vectoriser(fitted_vectoriser, 'tfidf_vectoriser')
 
   # evaluation
   label_score = ovr_classifier.decision_function(test_vector)
   binarise_result = label_binarize(result, classes=class_list)
   binarise_labels = label_binarize(test_labels, classes=class_list)
 
-  evaluate(binarise_result, binarise_labels, label_score, 'tfid_linsvc_classifier')
+  evaluate(binarise_result, binarise_labels, label_score, 'tfidf_linsvc')
 
 
 if __name__ == '__main__':

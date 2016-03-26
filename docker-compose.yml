@@ -16,6 +16,7 @@ solr-node:
   - "8983:8983"
   volumes:
   - ./index/solr/sport/conf/:/tmp/solr/sport/conf/:rw
+  - ./data/all_data.json:/opt/solr/data/all_data.json:rw
 recrawler-node:
   build: .
   dockerfile: recrawler/Dockerfile
