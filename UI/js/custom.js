@@ -334,6 +334,9 @@ app.controller('newsCtrl', function($scope, $http) {
       //     }
       //   }
       // }
+      if(suggestions.length > 0) {
+        $scope.hasSuggestions = true;
+      }
       $scope.suggestions = suggestions;
     });
   }
