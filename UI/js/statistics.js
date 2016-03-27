@@ -2,26 +2,28 @@ setTheme();
 
 //Later retrieve the actual vale
 var predictedSentiData = [];
+
 var predictedPosData = {
   name: 'Positive',
-  y: 123
+  y: 155
 };
 
 predictedSentiData.push(predictedPosData);
 
+var predictedNeuData = {
+  name: 'Neutral',
+  y: 2217
+};
+
+predictedSentiData.push(predictedNeuData);
+
 var predictedNegData = {
   name: 'Negative',
-  y: 25
+  y: 196
 };
 
 predictedSentiData.push(predictedNegData);
 
-var predictedNeuData = {
-  name: 'Neutral',
-  y: 52
-};
-
-predictedSentiData.push(predictedNeuData);
 
 
 $('#sentiPie').highcharts({
@@ -35,7 +37,7 @@ $('#sentiPie').highcharts({
     text: 'Predicted Sentiment Distribution'
   },
   tooltip: {
-    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    pointFormat: '<b>{point.percentage:.1f}%</b>'
   },
   plotOptions: {
     pie: {
@@ -58,25 +60,25 @@ $('#sentiPie').highcharts({
 
 var trueSentiData = [];
 var truePosData = {
-  name: 'True Positive',
+  name: 'Actual Positive',
   //4 are classified as positive, 1 is classified as neural, 2 are classified as negative.
-  data: [4, 1, 2]
+  data: [70, 359, 38]
 };
 
 trueSentiData.push(truePosData);
 
 var trueNeuData = {
-  name: 'True Neutral',
+  name: 'Actual Neutral',
   //1 are classified as positive, 4 is classified as neural, 2 are classified as negative.
-  data: [1, 8, 2]
+  data: [50, 1461, 75]
 };
 
 trueSentiData.push(trueNeuData);
 
 var trueNegData = {
-  name: 'True Negative',
+  name: 'Actual Negative',
   //2 are classified as positive, 3 is classified as neural, 8 are classified as negative.
-  data: [2, 3, 8]
+  data: [35, 397, 83]
 };
 
 trueSentiData.push(trueNegData);
@@ -89,7 +91,7 @@ $('#sentiBar').highcharts({
     text: 'Classification Detail'
   },
   xAxis: {
-    categories: ['Classified Positive', 'Classified Neutral', 'Classified Negative']
+    categories: ['Predicted Positive', 'Predicted Neutral', 'Predicted Negative']
   },
   yAxis: {
     min: 0,
