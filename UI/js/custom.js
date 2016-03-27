@@ -134,7 +134,7 @@ app.controller('newsCtrl', function($scope, $http) {
     // you are not allow to do cross domain request.
     var domain = 'solr/sport/select?';
     var component = 'json.wrf=JSON_CALLBACK' +
-        '&q=' + keywords +
+        '&q=' + encodeURIComponent(keywords) +
         '&start=' + start +
         '&rows=' + pageSize +
         '&wt=json' +
