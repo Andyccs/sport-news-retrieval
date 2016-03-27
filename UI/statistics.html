@@ -16,6 +16,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+  <link href="css/statistics.css" rel="stylesheet" type="text/css" media="all"/>
 
   <!--Google Font-->
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -27,6 +28,38 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <li role="presentation"><a href="index.html">Search</a></li>
     <li role="presentation" class="active"><a href="statistics.html">Statistics</a></li>
   </ul>
+  <div class="matrix" >
+          <table class="table table-condensed">
+           <caption>Confusion Matrix</caption>
+           <thead>
+             <tr>
+              <th></th>
+               <th>Predicted Positive</th>
+               <th>Predicted Neutral</th>
+               <th>Predicted Negative</th>
+             </tr>
+           </thead>
+                  
+            <tr>
+              <th>Actual Positive</th>
+              <td>70</td> 
+              <td>359</td>
+              <td>38</td>
+            </tr>
+            <tr>
+              <th>Actual Neutral</th>
+              <td>50</td> 
+              <td>1461</td>
+              <td>75</td>
+            </tr>
+            <tr>
+              <th>Actual Negative</th>
+              <td>35</td> 
+              <td>397</td>
+              <td>83</td>
+            </tr>
+          </table>
+  </div>
   <div class="row">
       <div class="col-md-6" id="sentiPie"></div>
       <div class="col-md-6" id="sentiBar"></div>

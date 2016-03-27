@@ -1,0 +1,15 @@
+caption {
+  text-align:center;
+  font-size:200%;
+  color:#f39c12 ;
+}
+
+.matrix {
+  padding: 50px 120px 50px 120px;
+  text-align:center;
+}
+
+th{
+  text-align:center;
+  font-weight:bold;
+}
