@@ -1,6 +1,6 @@
 
 var app = angular.module('myApp', ['autocomplete']);
-var pageSize = 5;
+var pageSize = 10;
 var currPage = 1;
 var keywords;
 var testLocally = true;
