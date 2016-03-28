@@ -30,7 +30,6 @@ app.controller('newsCtrl', function($scope, $http) {
     }
     var component = 'json.wrf=JSON_CALLBACK';
 
-    component += '&wt=json';
     component += '&spellcheck.q=' + encodeURIComponent(typed);
 
     $http.jsonp(url + component).success(function(data) {
@@ -146,7 +145,6 @@ app.controller('newsCtrl', function($scope, $http) {
         '&q=' + encodeURIComponent(keywords) +
         '&start=' + start +
         '&rows=' + pageSize +
-        '&wt=json' +
         '&facet.field=author' +
         '&facet.date=created_at' +
         '&f.created_at.facet.date.start=NOW-12MONTH/MONTH' +
@@ -296,8 +294,7 @@ app.controller('newsCtrl', function($scope, $http) {
       url = 'http://localhost:8983/solr/sport/select?';
     }
     var comp = 'json.wrf=JSON_CALLBACK' +
-        '&wt=json' +
-        '&spellcheck.q=' + encodeURIComponent(keywords);
+    '&spellcheck.q=' + encodeURIComponent(keywords);
 
 
     $http.jsonp(url + comp).success(function(data) {
