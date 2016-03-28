@@ -3,7 +3,7 @@ var app = angular.module('myApp', ['autocomplete']);
 var pageSize = 5;
 var currPage = 1;
 var keywords;
-
+var testLocally = true;
 
 
 app.controller('newsCtrl', function($scope, $http) {
@@ -24,6 +24,10 @@ app.controller('newsCtrl', function($scope, $http) {
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
     var url = 'solr/sport/suggest?';
+
+    if(testLocally) {
+      url = 'http://localhost:8983/solr/sport/suggest?';
+    }
     var component = 'json.wrf=JSON_CALLBACK';
 
     component += '&wt=json';
@@ -133,6 +137,11 @@ app.controller('newsCtrl', function($scope, $http) {
     // computer. We should not specify any domain name as well, such as http://example.com, because
     // you are not allow to do cross domain request.
     var domain = 'solr/sport/select?';
+
+    if(testLocally) {
+      domain = 'http://localhost:8983/solr/sport/select?';
+    }
+
     var component = 'json.wrf=JSON_CALLBACK' +
         '&q=' + encodeURIComponent(keywords) +
         '&start=' + start +
@@ -283,6 +292,9 @@ app.controller('newsCtrl', function($scope, $http) {
     // you are not allow to do cross domain request.
     var url = 'solr/sport/select?';
 
+    if(testLocally) {
+      url = 'http://localhost:8983/solr/sport/select?';
+    }
     var comp = 'json.wrf=JSON_CALLBACK' +
         '&wt=json' +
         '&spellcheck.q=' + encodeURIComponent(keywords);
