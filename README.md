@@ -28,6 +28,12 @@ $ python crawler/news_crawler.py
 
 Five json files, `espn_data.json`, `TheNBACentral_data.json`, `SimpleNBAScores`, `ESPNNBA`, and `NBATV` will be created at the `data` directory of this project.
 
+To count number of words in crawled data:
+
+```Shell
+$ python crawler/count_words.py
+```
+
 ## Recrawler
 
 First, we install all requirements for recrawler by using the following command:
@@ -55,6 +61,7 @@ $ solr start -s root_of_project/index/solr
 $ post -c sport espn_data.json
 $ post -c sport TheNBACentral_data.json
 ```
+
 ## Classifier
 
 First, we install all requirements for classifier by using the following command:
@@ -170,6 +177,11 @@ $ python classifier/ensemble_classifier.py
 
 #### Inter annotator agreement
 The preprocessing.py class calls the nltk [annotation task](https://github.com/tousif/nltk-gae/blob/master/nltk/metrics/agreement.py).
+
+### Classify all crawled data
+
+```Shell
+$ python classifier/classifier_data.py
 
 ## UI Client
 

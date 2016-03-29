@@ -7,8 +7,8 @@ LABEL_KEY = 'label'
 
 
 def classify_data():
-  model = joblib.load('model/linear_svc.pkl')
-  vectoriser = joblib.load('model/tf_idf_vectoriser.pkl')
+  model = joblib.load('model/tfidf_linsvc.pkl')
+  vectoriser = joblib.load('model/tfidf_vectoriser.pkl')
 
   all_tweets_with_metadata = []
   all_tweets = []
