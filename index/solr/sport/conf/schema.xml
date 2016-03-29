@@ -134,6 +134,7 @@
     <analyzer type="index">
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([a-zA-Z])\1+" replacement="$1$1" />
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
+      <filter class="solr.PatternReplaceFilterFactory" pattern="(https?).*" replacement=""/>
       <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" splitOnCaseChange="0" splitOnNumerics="0" stemEnglishPossessive="1" preserveOriginal="0" catenateWords="1" generateNumberParts="1" catenateNumbers="0" catenateAll="0" types="wdfftypes.txt" />
       <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
       <filter class="solr.LowerCaseFilterFactory" />
@@ -143,6 +144,7 @@
     <analyzer type="query">
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([a-zA-Z])\1+" replacement="$1$1" />
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
+      <filter class="solr.PatternReplaceFilterFactory" pattern="(https?).*" replacement=""/>
       <filter class="solr.WordDelimiterFilterFactory" splitOnCaseChange="0" splitOnNumerics="0" stemEnglishPossessive="1" preserveOriginal="0" generateWordParts="1" catenateWords="1" generateNumberParts="0" catenateNumbers="0" catenateAll="0" types="wdfftypes.txt" />
       <filter class="solr.LowerCaseFilterFactory" />
       <filter class="solr.ASCIIFoldingFilterFactory" />
