@@ -58,3 +58,6 @@ san,antonio,spurs,sa
 toronto,raptors,tor
 utah,jazz
 washington,wizards,wash
+
+# Others
+nba,national,basketball,association
