@@ -18,7 +18,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <script src="bower_components/angular/angular.min.js"></script>
   <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
   <link rel="stylesheet" href="bower_components/autocomplete/style/autocomplete.css">
-
+  <style>
+    .autocomplete{
+      width: 100%;
+      display:inline;
+      position: relative;
+    }
+  </style>
   <!--Google Font-->
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
 </head>
@@ -43,7 +49,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <i> </i>
     <div class="s-bar">
       <form>
-        <autocomplete ng-model="keywords" data="items" on-type="update" style="display:inline;color:black;"></autocomplete>
+        <autocomplete ng-model="keywords" data="items" on-type="update" style="color:black;"></autocomplete>
         <input type="submit" ng-click="search()" value="Search"/>
       </form>
     </div>
