@@ -3,7 +3,7 @@ var app = angular.module('myApp', ['autocomplete']);
 var pageSize = 10;
 var currPage = 1;
 var keywords;
-var testLocally = false;
+var testLocally = true;
 
 
 app.controller('newsCtrl', function($scope, $http) {
@@ -125,7 +125,7 @@ app.controller('newsCtrl', function($scope, $http) {
     return query;
   }
 
-  function makeRequest(tickAll) {
+  function makeRequest(updateFaceting) {
 
     var start = (currPage - 1) * pageSize;
 
@@ -233,47 +233,46 @@ app.controller('newsCtrl', function($scope, $http) {
 
       $scope.comment = 'The query takes ' + queryTime + ' milliseconds. ';
 
+      if(updateFaceting) {
+        var monthRecords = [];
+        var month;
+        var monthCount = 0;
 
-      var monthRecords = [];
-      var month;
-      var monthCount = 0;
+        for (var key in data.facet_counts.facet_dates.created_at) {
+          if (monthCount == 12) {break;};
+          monthCount = monthCount + 1;
+          var date = new Date(key);
 
-      for (var key in data.facet_counts.facet_dates.created_at) {
-        if (monthCount == 12) {break;};
-        monthCount = monthCount + 1;
-        var date = new Date(key);
+          count = data.facet_counts.facet_dates.created_at[key];
+          var monthRecord = {};
 
-        count = data.facet_counts.facet_dates.created_at[key];
-        var monthRecord = {};
-
-        monthRecord.month = date;
-        monthRecord.count = count;
-        monthRecords.push(monthRecord);
-      }
-      $scope.showDateFilter = true;
-      $scope.monthRecords = monthRecords ;
-
-      var sources = [];
-      var author;
-      var count = 0;
-      var source = {};
-
-      for (i = 0; i < data.facet_counts.facet_fields.author.length; i++) {
-
-        if(i % 2 == 0) {
-          author = data.facet_counts.facet_fields.author[i];
-          source.name = author;
-        }else{
-          count = data.facet_counts.facet_fields.author[i];
-          source.count = count;
-          sources.push(source);
-          source = {};
+          monthRecord.month = date;
+          monthRecord.count = count;
+          monthRecords.push(monthRecord);
         }
-      }
-      $scope.showSourceFilter = true;
-      $scope.sources = sources ;
+        $scope.showDateFilter = true;
+        $scope.monthRecords = monthRecords ;
 
-      if(tickAll) {
+        var sources = [];
+        var author;
+        var count = 0;
+        var source = {};
+
+        for (i = 0; i < data.facet_counts.facet_fields.author.length; i++) {
+
+          if(i % 2 == 0) {
+            author = data.facet_counts.facet_fields.author[i];
+            source.name = author;
+          }else{
+            count = data.facet_counts.facet_fields.author[i];
+            source.count = count;
+            sources.push(source);
+            source = {};
+          }
+        }
+        $scope.showSourceFilter = true;
+        $scope.sources = sources;
+
         $scope.sourceSelection = [];
         for(var i = 0;i < $scope.sources.length;i++) {
           $scope.sourceSelection.push($scope.sources[i].name);
