@@ -66,7 +66,6 @@ input[type=date] {
 }
 
 .news{
-	
 	display:block;
         margin: 0em 0em 2em 0em;
 	padding: 0.5em 0.5em 0.5em 0.5em;
@@ -76,7 +75,7 @@ input[type=date] {
 .news p{
 	padding:0em 0em 0em 0em;
 	font-size:2em;
-	color: #F5A9A9;
+	color: #BEF781;
 	font-family: "Times New Roman", Georgia, Serif;
 }
 
