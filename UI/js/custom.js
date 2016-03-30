@@ -7,7 +7,7 @@ var testLocally = false;
 
 
 app.controller('newsCtrl', function($scope, $http) {
-
+  $scope.noResult = false;
   $scope.comment = 'Popular searches: Warriors, Curry for Three';
 
   $scope.suggest = function(suggestion) {
@@ -222,6 +222,11 @@ app.controller('newsCtrl', function($scope, $http) {
         $scope.nextDisabled = false;
       }
 
+      if(data.response.docs.length == 0) {
+        $scope.noResult = true;
+      }else{
+        $scope.noResult = false;
+      }
       $scope.news = data.response.docs ;
 
       var queryTime = data.responseHeader.QTime;

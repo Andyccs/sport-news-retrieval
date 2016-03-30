@@ -112,6 +112,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
 
     <div class="col-md-9">
+      <h1 style="font-style: italic;" ng-show="noResult">
+        Sorry, cannot find any tweets about '{{keywords}}'.
+      </h1>
       <div class="news" ng-repeat="x in news">
         <div class="row">
           <div class="col-md-4 bold">Source: {{x.author}}</div>
