@@ -20,8 +20,10 @@ solr-node:
 recrawler-node:
   build: .
   dockerfile: recrawler/Dockerfile
+  links:
+  - solr-node
   ports:
   - "8000:8000"
   volumes:
   - ./crawler/:/usr/src/app/crawler/:rw
-  - ./recrawler/:/usr/src/app/recrawler/:rw
+  - ./recrawler/recrawl:/usr/src/app/recrawler/recrawler:rw

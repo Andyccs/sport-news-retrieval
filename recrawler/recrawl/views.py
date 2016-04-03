@@ -1,25 +1,24 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
 from multiprocessing import Pool
-import threading
-import news_crawler
-import sys
-sys.path.insert(0, '../classifier')
 import classify_data
 import json
-import urllib2
+import news_crawler
 import socket
+import threading
+import urllib2
+import os
 
 
 def crawl_data(account):
   # crawl json from twitter
   print 'recrawling tweets from', account
-  news_crawler.crawl(account)
+  news_crawler.crawl(account, store=True)
 
 
 def update_solr():
-  json_data = open('../data/all_data.json')
+  json_data = open('data/all_data.json')
   temp = json.load(json_data)
   result_json = json.dumps(temp)
 
